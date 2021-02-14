@@ -11,12 +11,16 @@ class Tournament:
 
 
 class Player:
-    def __init__(self, first_name: str, last_name: str, birthdate: str, sex: str, ranking: int):
+    def __init__(self, first_name: str, ranking: int):
         self.first_name = first_name
-        self.last_name = last_name
-        self.birthdate = birthdate
-        self.sex = sex
+        # self.last_name = last_name
+        # self.birthdate = birthdate
+        # self.sex = sex
         self.ranking = ranking  # Postitive int
+        self.points = 0
+
+    def __str__(self):
+        return f'{self.first_name} - {self.ranking}'
 
 
 class Match:
@@ -37,7 +41,3 @@ class Match:
 class Round:
     def __init__(self, name: str, start_datetime: str, end_datetime: str):
         pass
-
-
-p = Player('aa', 'bb', '26/12/1992', 'M', 111)
-print("after")
