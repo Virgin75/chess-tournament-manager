@@ -18,9 +18,10 @@ class Player:
         # self.sex = sex
         self.ranking = ranking  # Postitive int
         self.points = 0
+        self.has_played_with = []
 
     def __str__(self):
-        return f'{self.first_name} - {self.ranking}'
+        return f'{self.first_name} - ({self.ranking}) - {self.points}pts'
 
 
 class Match:
