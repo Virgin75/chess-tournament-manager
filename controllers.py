@@ -14,7 +14,13 @@ p6 = Player(*players_data[5])
 p7 = Player(*players_data[6])
 p8 = Player(*players_data[7])
 
+tournament.players = [p1, p2, p3, p4, p5, p6, p7, p8]
+
+first_round = Round(get_round_1_name)
+first_round.generer_paires_round1(tournament.players)
+
 print(p1)
+
 
 '''
 players_list = []
