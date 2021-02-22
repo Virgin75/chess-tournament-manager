@@ -2,45 +2,91 @@ from models import *
 from views import *
 
 
-class Tournament_controller:
+class Main_menu_controller:
     def __init__(self):
-        self.model = Tournament
-        self.view = create_tournament_view()
+        self.view = Views()
+        self.choices = {
+            "1": self.create_tournament,
+            "2": self.add_player,
+            "3": self.edit_player,
+            "4": self.start_round,
+            "5": self.generate_reports
+        }
+        self.players_created = 0
+        self.players_instance = []
+        self.tournament_created = 0
+        self.tournament_instance = None
+
+    def run(self):
+        while True:
+            go_to = self.view.main_menu_view(
+                self.players_created, self.tournament_created)
+            action = self.choices.get(go_to)
+            if action:
+                action()
+            else:
+                print(f'{go_to} is not a valid choice')
 
     def create_tournament(self):
-        if self._check_valid_dates():
-            tournament = self.model(*self.view)
-            return tournament
+        if self.tournament_created == 0:
+            tournament_data = Views().create_tournament_view()
+            tc = Tournament_controller(tournament_data)
+            if tc.is_data_valid():
+                tournament = Tournament(*tournament_data)
+                self.view.success_message_tournament(tournament.name)
+                self.tournament_created += 1
+                self.tournament_instance = tournament
         else:
-            # need to start again and input valid dates
-            self.view = create_tournament_view()
-            self.create_tournament()
+            '''A tournament has already been created'''
+            start_again = self.view.restart_tournament_creation_view()
+            if start_again.upper() == "Y":
+                self.tournament_created = 0
+                self.create_tournament()
 
-    def _check_valid_dates(self):
+    def add_player(self):
+        player_data = Views().create_player_view(self.players_created + 1)
+        pc = Player_controller(player_data)
+        if pc.is_data_valid():
+            player = Player(*player_data)
+            self.view.success_message_player(
+                player.first_name, player.last_name)
+            self.players_created += 1
+            self.players_instance.append(player)
+
+    def edit_player(self):
+        pass
+
+    def start_round(self):
+        pass
+
+    def generate_reports(self):
+        pass
+
+
+class Tournament_controller:
+    def __init__(self, tournament_data):
+        self.tournament_data = tournament_data
+
+    def is_data_valid(self):
         regex_startdate = re.match(
-            '^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}$', self.view[2])
+            '^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}$', self.tournament_data[2])
         regex_enddate = re.match(
-            '^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}$', self.view[3])
+            '^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}$', self.tournament_data[3])
         if bool(regex_startdate) and bool(regex_enddate):
+            # data collected from inputs are valid
             return True
         else:
-            error_view('Format de date non valide.')
+            Views().error_view('Format de date non valide.')
 
 
 class Player_controller:
-    def __init__(self):
+    def __init__(self, player_data):
         self.model = Player
-        self.player_data = []
+        self.player_data = player_data
 
-    def create_player(self, number):
-        self.player_data = create_player_view(number)
+    def is_data_valid(self):
         if self._check_valid_date() and self._check_valid_sex() and self._check_valid_rank():
-            player = Player(*self.player_data)
-            success_message(number)
-            return player
-        else:
-            # need to start again and input valid birthdate
-            return self.create_player(number)
+            return True
 
     def _check_valid_date(self):
         regex_birthdate = re.match(
@@ -48,20 +94,20 @@ class Player_controller:
         if bool(regex_birthdate):
             return True
         else:
-            error_view('Format de date non valide.')
+            Views().error_view('Format de date non valide.')
 
     def _check_valid_sex(self):
         if self.player_data[3].upper() == 'M' or self.player_data[3].upper() == 'F':
             return True
         else:
-            error_view('Sexe non valide. Veuillez entrer M ou F.')
+            Views().error_view('Sexe non valide. Veuillez entrer M ou F.')
 
     def _check_valid_rank(self):
         if self.player_data[4].isdigit():
             if int(self.player_data[4]) > 0:
                 return True
         else:
-            error_view('Votre classement doit être un entier positif.')
+            Views().error_view('Votre classement doit être un entier positif.')
 
 
 '''
