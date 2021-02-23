@@ -13,7 +13,7 @@ class Main_menu_controller:
             "5": self.generate_reports
         }
         self.players_created = 0
-        self.players_instance = []
+        self.player_instances = []
         self.tournament_created = 0
         self.tournament_instance = None
 
@@ -44,22 +44,35 @@ class Main_menu_controller:
                 self.create_tournament()
 
     def add_player(self):
-        player_data = Views().create_player_view(self.players_created + 1)
-        pc = Player_controller(player_data)
-        if pc.is_data_valid():
-            player = Player(*player_data)
-            self.view.success_message_player(
-                player.first_name, player.last_name)
-            self.players_created += 1
-            self.players_instance.append(player)
+        if self.players_created <= 7:
+            player_data = Views().create_player_view(self.players_created + 1)
+            pc = Player_controller(player_data)
+            if pc.is_data_valid():
+                player = Player(*player_data)
+                self.view.success_message_player(
+                    player.first_name, player.last_name)
+                self.players_created += 1
+                self.player_instances.append(player)
+        else:
+            '''More than 8 player have already been created'''
+            self.view.too_many_players_view()
 
     def edit_player(self):
-        pass
+        self.view.edit_player_view(self.player_instances)
 
     def start_round(self):
         pass
 
     def generate_reports(self):
+        pass
+
+
+class Edit_player_menu_controller:
+    def __init__(self):
+        self.view = Views()
+        self.choices = {}
+
+    def edit_player(self, num):
         pass
 
 

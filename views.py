@@ -4,18 +4,19 @@ import re
 class Views:
     def main_menu_view(self, nb_players, nb_tournament):
         print('🏆 MENU - Chess Tournament Manager')
-        print('--------------')
+        print('------------------------------------')
         if nb_tournament >= 1:
-            print('1 - Create a new tournament --- DONE')
+            print('     1 - Create a new tournament --- DONE')
         else:
-            print('1 - Create a new tournament')
+            print('     1 - Create a new tournament')
         if nb_players:
-            print(f'2 - Add a new player --- {nb_players}/8 added. ')
+            print(f'     2 - Add a new player --- {nb_players}/8 added. ')
         else:
-            print('2 - Add a new player')
-        print('3 - Edit a player ranking')
-        print('4 - Start the round')
-        print('5 - Generate reports')
+            print('     2 - Add a new player')
+        print('     3 - Edit a player ranking')
+        print('     4 - Start the round')
+        print('     5 - Generate reports')
+        print('------------------------------------')
         print('Please input a number between 1 & 5 to choose what to do:')
         choice = input('>>> ')
 
@@ -57,6 +58,17 @@ class Views:
 
         return [player_first_name, player_last_name,
                 player_birthdate, player_sex, player_ranking]
+
+    def too_many_players_view(self):
+        print('\n - \n Limit of players is set to 8. Tournament is full. \n - \n')
+
+    def edit_player_view(self, players):
+        print('------------------------------------')
+        for num, player in enumerate(players):
+            print(f'{num + 1} - {player.first_name}')
+        if players == []:
+            print('\n - \n There is no player in the tournament... \n - \n')
+        print('------------------------------------')
 
     def error_view(self, error):
         print(
