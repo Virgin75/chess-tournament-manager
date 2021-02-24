@@ -1,4 +1,5 @@
 import operator
+from datetime import datetime
 
 
 class Tournament:
@@ -20,12 +21,12 @@ class Player:
         self.last_name = last_name
         self.birthdate = birthdate
         self.sex = sex
-        self.ranking = ranking  # Postitive int
+        self.ranking = int(ranking)
         self.points = 0
         self.has_played_with = []
 
     def __str__(self):
-        return f'{self.first_name} - ({self.ranking}) - {self.points}pts'
+        return f'{self.first_name} ({self.ranking}) - {self.points}pts'
 
 
 class Match:
@@ -34,6 +35,8 @@ class Match:
         self.player2 = player2
         self.player1_score = 0
         self.player2_score = 0
+        self.result = ([self.player1, self.player1_score],
+                       [self.player2, self.player2_score])
 
     def set_results(is_draw: bool, player: Player):
         if is_draw:
@@ -42,22 +45,33 @@ class Match:
         if player == self.player1:
             self.player1_score += 1
 
+    def __str__(self):
+        return f'{self.player1} VS {self.player2}'
+
 
 class Round:
     def __init__(self, name: str):
+        now = datetime.now()
         self.name = name
-        self.start_datetime = 'a def'
-        self.end_datetime = 'a def'
+        self.start_datetime = now.strftime("%d/%m/%Y %H:%M:%S")
+        self.end_datetime = ''
+        self.match_instances = []
+
+    def _set_end_time(self):
+        now = datetime.now()
+        self.end_datetime = now.strftime("%d/%m/%Y %H:%M:%S")
 
     def generer_paires_round1(self, players: list):
-        sorted_players = sorted(players, key=operator.attrgetter('ranking'))
+        sorted_players = sorted(players,  key=lambda player: player.ranking)
         group_inf = sorted_players[:len(sorted_players)//2]
         group_sup = sorted_players[len(sorted_players)//2:]
 
-        paire1 = (group_sup[3], group_inf[3])
-        paire2 = (group_sup[2], group_inf[2])
-        paire3 = (group_sup[1], group_inf[1])
-        paire4 = (group_sup[0], group_inf[0])
+        paire1 = Match(group_sup[3], group_inf[3])
+        paire2 = Match(group_sup[2], group_inf[2])
+        paire3 = Match(group_sup[1], group_inf[1])
+        paire4 = Match(group_sup[0], group_inf[0])
+
+        self.match_instances = [paire1, paire2, paire3, paire4]
 
         group_sup[3].has_played_with.append(group_inf[3])
         group_inf[3].has_played_with.append(group_sup[3])
@@ -67,6 +81,8 @@ class Round:
         group_inf[1].has_played_with.append(group_sup[1])
         group_sup[0].has_played_with.append(group_inf[0])
         group_inf[0].has_played_with.append(group_sup[0])
+
+        self._set_end_time()
 
     def generer_paires_next_rounds(self, players: list):
         # On trie les joueurs par points puis par rang si même nombre de points
@@ -150,3 +166,4 @@ class Round:
 
         print(f'{paire1[0].__str__()} VS {paire1[1].__str__()} \n{paire2[0].__str__()} VS {paire2[1].__str__()} \n{paire3[0].__str__()} VS {paire3[1].__str__()} \n{paire4[0].__str__()} VS {paire4[1].__str__()} \n')
         print([p.__str__() for p in paire1[0].has_played_with])
+        self._set_end_time()

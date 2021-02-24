@@ -16,6 +16,8 @@ class Main_menu_controller:
         self.player_instances = []
         self.tournament_created = 0
         self.tournament_instance = None
+        self.current_round = 0
+        self.round_instances = []
 
     def run(self):
         while True:
@@ -45,6 +47,27 @@ class Main_menu_controller:
 
     def add_player(self):
         if self.players_created <= 7:
+            '''
+            p1 = Player(*['Pedrito', 'player_last_name',
+                          '11/11/1111', 'm', 333])
+            p2 = Player(*['Paolo', 'player_last_name',
+                          '11/11/1111', 'm', 233])
+            p3 = Player(*['Poberta', 'player_last_name',
+                          '11/11/1111', 'm', 1303])
+            p4 = Player(*['Flabu', 'player_last_name',
+                          '11/11/1111', 'm', 23])
+            p5 = Player(*['Kaku', 'player_last_name',
+                          '11/11/1111', 'm', 3])
+            p6 = Player(*['Toto', 'player_last_name',
+                          '11/11/1111', 'm', 812])
+            p7 = Player(*['Pipi', 'player_last_name',
+                          '11/11/1111', 'm', 13])
+            p8 = Player(*['Popo', 'player_last_name',
+                          '11/11/1111', 'm', 120])
+
+            self.player_instances = [p1, p2, p3, p4, p5, p6, p7, p8]
+            self.players_created = 8
+            '''
             player_data = Views().create_player_view(self.players_created + 1)
             pc = Player_controller(player_data)
             if pc.is_data_valid():
@@ -63,10 +86,31 @@ class Main_menu_controller:
         edit_player_controller.run()
 
     def start_round(self):
+
+        # The round cannot start if one of the 3 conditions below is met
         if self.players_created < 8:
             return self.view.not_enough_players_view()
         if self.tournament_created == 0:
             return self.view.no_tournamenet_created_view()
+        if self.current_round == 4:
+            return self.view.no_more_round_view()
+
+        # Start the first round
+        if self.current_round == 0:
+            round_name = self.view.start_first_round_view()
+            first_round = Round(round_name)
+            self.round_instances.append(first_round)
+
+            '''Generation des paires'''
+            first_round.generer_paires_round1(self.player_instances)
+            match_list = first_round.match_instances
+            self.view.display_matches_view(match_list)
+
+        # Start the following round
+        else:
+            pass
+
+        self.current_round += 1
 
     def generate_reports(self):
         pass
@@ -142,25 +186,3 @@ class Player_controller:
                 return True
         else:
             Views().error_view('Votre classement doit être un entier positif.')
-
-
-'''
-tournament = Tournament(*create_tournament())
-players_data = create_players()
-
-p1 = Player(*players_data[0])
-p2 = Player(*players_data[1])
-p3 = Player(*players_data[2])
-p4 = Player(*players_data[3])
-p5 = Player(*players_data[4])
-p6 = Player(*players_data[5])
-p7 = Player(*players_data[6])
-p8 = Player(*players_data[7])
-
-tournament.players = [p1, p2, p3, p4, p5, p6, p7, p8]
-
-first_round = Round(get_round_1_name)
-first_round.generer_paires_round1(tournament.players)
-
-print(p1)
-'''

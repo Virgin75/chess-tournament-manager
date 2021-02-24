@@ -7,7 +7,7 @@ class Views:
         print('------------------------------------')
         if nb_tournament >= 1:
             print(
-                '    1 - \u001b[33m Create a new tournament\033[0m --- DONE')
+                '     1 -\u001b[33m Create a new tournament\033[0m --- DONE')
         else:
             print('     1 - \u001b[33mCreate a new tournament\033[0m')
         if nb_players:
@@ -70,6 +70,18 @@ class Views:
     def no_tournamenet_created_view(self):
         print('\n - \n Please input "1" and create a Tournament before starting the first round.. \n - \n')
 
+    def no_more_round_view(self):
+        print(
+            '\n - \n You just played the last round. No more matches are available. \n - \n')
+
+    def start_first_round_view(self):
+        print('------------------------------------')
+        name = input(
+            'What shoud be the name of the first round? (ex: Round 1): ')
+        print('------------------------------------')
+
+        return name
+
     def edit_players_view(self, players):
 
         print('------------------------------------')
@@ -94,6 +106,12 @@ class Views:
 
         return ranking
 
+    def display_matches_view(self, match_list):
+        print('------------------------------------')
+        for match in match_list:
+            print(match.__str__())
+        print('------------------------------------')
+
     def error_view(self, error):
         print(
             f'\u001b[33m\n - \n😞 Erreur lors de la validation des champs : {error}\033[0m\n - \n')
@@ -104,9 +122,3 @@ class Views:
 
     def success_message_tournament(self, title):
         print(f'\n - \nTournoi "{title}" créé avec succès ✅\n - \n\033[0m')
-
-    def get_round_1_name(self):
-        print('Avant de commencer la ronde 1, comment souhaitez-vous la nommer ?')
-        round_1_name = input('Nom de la ronde 1 (ex : Round 1) : ')
-
-        return round_1_name
