@@ -6,16 +6,18 @@ class Views:
         print('🏆 MENU - Chess Tournament Manager')
         print('------------------------------------')
         if nb_tournament >= 1:
-            print('     1 - Create a new tournament --- DONE')
+            print(
+                '    1 - \u001b[33m Create a new tournament\033[0m --- DONE')
         else:
-            print('     1 - Create a new tournament')
+            print('     1 - \u001b[33mCreate a new tournament\033[0m')
         if nb_players:
-            print(f'     2 - Add a new player --- {nb_players}/8 added. ')
+            print(
+                f'     2 - \u001b[33mAdd a new player\033[0m --- {nb_players}/8 added. ')
         else:
-            print('     2 - Add a new player')
-        print('     3 - Edit a player ranking')
-        print('     4 - Start the round')
-        print('     5 - Generate reports')
+            print('     2 - \u001b[33mAdd a new player\033[0m')
+        print('     3 - \u001b[33mEdit a player ranking\033[0m')
+        print('     4 - \u001b[33mStart the round\033[0m')
+        print('     5 - \u001b[33mGenerate reports\033[0m')
         print('------------------------------------')
         print('Please input a number between 1 & 5 to choose what to do:')
         choice = input('>>> ')
@@ -62,13 +64,35 @@ class Views:
     def too_many_players_view(self):
         print('\n - \n Limit of players is set to 8. Tournament is full. \n - \n')
 
-    def edit_player_view(self, players):
+    def not_enough_players_view(self):
+        print('\n - \n There is not enough players to start the tournament. \n - \n')
+
+    def no_tournamenet_created_view(self):
+        print('\n - \n Please input "1" and create a Tournament before starting the first round.. \n - \n')
+
+    def edit_players_view(self, players):
+
         print('------------------------------------')
-        for num, player in enumerate(players):
-            print(f'{num + 1} - {player.first_name}')
         if players == []:
             print('\n - \n There is no player in the tournament... \n - \n')
+        else:
+            print('🧍 Here is the list of players: \n')
+            for num, player in enumerate(players, start=1):
+                print(f'{num} - {player.first_name} - Ranked: {player.ranking}')
+            print('------------------------------------')
+            print('Select a player to edit:')
+            choice = input('>>> ')
+            print('------------------------------------')
+
+            return choice
+
+    def edit_player_view(self, player):
+        print(f'What is the new ranking of {player.first_name}')
+        print(f' - Current ranking: {player.ranking}')
+        ranking = input(' - New ranking: ')
         print('------------------------------------')
+
+        return ranking
 
     def error_view(self, error):
         print(

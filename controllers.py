@@ -58,22 +58,43 @@ class Main_menu_controller:
             self.view.too_many_players_view()
 
     def edit_player(self):
-        self.view.edit_player_view(self.player_instances)
+        edit_player_controller = Edit_player_menu_controller(
+            self.player_instances)
+        edit_player_controller.run()
 
     def start_round(self):
-        pass
+        if self.players_created < 8:
+            return self.view.not_enough_players_view()
+        if self.tournament_created == 0:
+            return self.view.no_tournamenet_created_view()
 
     def generate_reports(self):
         pass
 
 
 class Edit_player_menu_controller:
-    def __init__(self):
+    def __init__(self, players):
         self.view = Views()
+        self.players = players
         self.choices = {}
+        for num, player in enumerate(self.players, start=1):
+            self.choices[str(num)] = (self.edit_player, player)
 
-    def edit_player(self, num):
-        pass
+    def run(self):
+        choice = self.view.edit_players_view(self.players)
+        action = self.choices.get(choice)
+        if action:
+            action[0](action[1])
+        else:
+            print(f'{choice} is not a valid choice.')
+
+    def edit_player(self, player):
+        new_ranking = self.view.edit_player_view(player)
+        pc = Player_controller(
+            [player.first_name, player.last_name, player.birthdate,
+             player.sex, new_ranking])
+        if pc.is_data_valid():
+            player.ranking = new_ranking
 
 
 class Tournament_controller:
