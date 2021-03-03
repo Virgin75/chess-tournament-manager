@@ -55,33 +55,33 @@ class Main_menu_controller:
 
     def create_tournament(self):
         if self.tournament_created == 0:
-            tournament_data = Views().create_tournament_view()
+            tournament_data = Tournament_views().create_tournament_view()
             tc = Tournament_controller(tournament_data)
             if tc.is_data_valid():
                 tournament = Tournament(*tournament_data)
-                self.view.success_message_tournament(tournament.name)
+                Tournament_views().success_message_tournament(tournament.name)
                 self.tournament_created += 1
                 self.tournament_instance = tournament
         else:
             '''A tournament has already been created'''
-            start_again = self.view.restart_tournament_creation_view()
+            start_again = Tournament_views().restart_tournament_creation_view()
             if start_again.upper() == "Y":
                 self.tournament_created = 0
                 self.create_tournament()
 
     def add_player(self):
         if self.players_created <= 7:
-            player_data = Views().create_player_view(self.players_created + 1)
+            player_data = Players_views().create_player_view(self.players_created + 1)
             pc = Player_controller(player_data)
             if pc.is_data_valid():
                 player = Player(*player_data)
-                self.view.success_message_player(
+                Players_views().success_message_player(
                     player.first_name, player.last_name)
                 self.players_created += 1
                 self.player_instances.append(player)
         else:
             '''More than 8 player have already been created'''
-            self.view.too_many_players_view()
+            Players_views().too_many_players_view()
 
     def edit_player(self):
         edit_player_controller = Edit_player_menu_controller(
@@ -92,31 +92,32 @@ class Main_menu_controller:
 
         # The round cannot start if one of the 3 conditions below is met
         if self.players_created < 8:
-            return self.view.not_enough_players_view()
+            return Players_views().not_enough_players_view()
         if self.tournament_created == 0:
-            return self.view.no_tournamenet_created_view()
+            return Tournament_views().no_tournament_created_view()
         if self.current_round == 4:
-            return self.view.no_more_round_view()
+            return Rounds_views().no_more_round_view()
 
-        # Start the first round
+        round_name = Rounds_views().start_round_view(self.current_round)
+        my_round = Round(round_name)
+        self.round_instances.append(my_round)
+
+        # Generate paires first round
         if self.current_round == 0:
-            round_name = self.view.start_first_round_view()
-            first_round = Round(round_name)
-            self.round_instances.append(first_round)
+            my_round.generer_paires_round1(self.player_instances)
 
-            '''Generation des paires'''
-            first_round.generer_paires_round1(self.player_instances)
-            match_list = first_round.match_instances
-            self.view.display_matches_view(match_list)
-
-        # Start the following round
+        # Generate paires following rounds
         else:
-            pass
+            my_round.generer_paires_next_rounds(self.player_instances)
+
+        match_list = my_round.match_instances
+        Rounds_views().display_matches_view(match_list)
 
         # Set the round results
         rc = Set_matches_results_menu_controller(match_list)
         rc.run()
 
+        my_round.set_end_time()
         self.current_round += 1
 
     def generate_reports(self):
@@ -132,7 +133,7 @@ class Edit_player_menu_controller:
             self.choices[str(num)] = (self.edit_player, player)
 
     def run(self):
-        choice = self.view.edit_players_view(self.players)
+        choice = Players_views().edit_players_view(self.players)
         action = self.choices.get(choice)
         if action:
             action[0](action[1])
@@ -140,7 +141,7 @@ class Edit_player_menu_controller:
             print(f'{choice} is not a valid choice.')
 
     def edit_player(self, player):
-        new_ranking = self.view.edit_player_view(player)
+        new_ranking = Players_views().edit_player_view(player)
         pc = Player_controller(
             [player.first_name, player.last_name, player.birthdate,
              player.sex, new_ranking])
@@ -160,7 +161,7 @@ class Set_matches_results_menu_controller:
 
     def run(self):
         while self.results_set < 4:
-            choice = self.view.set_matches_result_view(self.matches)
+            choice = Matches_views().set_matches_result_view(self.matches)
             action = self.choices.get(choice)
             if action:
                 action[0](action[1])
@@ -172,8 +173,8 @@ class Set_matches_results_menu_controller:
         smc = Set_match_result_menu_controller(match)
         match_instance = smc.run()
         self.matches_instances.append(match_instance)
-        if match_instance not in self.matches_instances:
-            self.results_set += 1
+        my_set = set(self.matches_instances)
+        self.results_set = len(my_set)
 
 
 class Set_match_result_menu_controller:
@@ -187,7 +188,7 @@ class Set_match_result_menu_controller:
         }
 
     def run(self):
-        choice = self.view.set_match_result_view(self.match)
+        choice = Rounds_views().set_match_result_view(self.match)
         action = self.choices.get(choice)
         if action:
             return action[0](action[1])
@@ -211,7 +212,7 @@ class Edit_player_menu_controller:
             self.choices[str(num)] = (self.edit_player, player)
 
     def run(self):
-        choice = self.view.edit_players_view(self.players)
+        choice = Players_views().edit_players_view(self.players)
         action = self.choices.get(choice)
         if action:
             action[0](action[1])
@@ -219,7 +220,7 @@ class Edit_player_menu_controller:
             print(f'{choice} is not a valid choice.')
 
     def edit_player(self, player):
-        new_ranking = self.view.edit_player_view(player)
+        new_ranking = Players_views().edit_player_view(player)
         pc = Player_controller(
             [player.first_name, player.last_name, player.birthdate,
              player.sex, new_ranking])

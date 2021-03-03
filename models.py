@@ -42,6 +42,10 @@ class Match:
                        [self.player2, self.player2_score])
 
     def set_results(self, is_draw: bool, winner: Player):
+        self.player1_score = 0
+        self.player2_score = 0
+        self.result = ([self.player1, self.player1_score],
+                       [self.player2, self.player2_score])
         if is_draw:
             self.player1_score += 0.5
             self.player2_score += 0.5
@@ -51,6 +55,8 @@ class Match:
             self.player2_score += 1
         self.has_results = True
 
+        self.result = ([self.player1, self.player1_score],
+                       [self.player2, self.player2_score])
         return self
 
     def __str__(self):
@@ -65,7 +71,7 @@ class Round:
         self.end_datetime = ''
         self.match_instances = []
 
-    def _set_end_time(self):
+    def set_end_time(self):
         now = datetime.now()
         self.end_datetime = now.strftime("%d/%m/%Y %H:%M:%S")
 
@@ -90,8 +96,6 @@ class Round:
         group_sup[0].has_played_with.append(group_inf[0])
         group_inf[0].has_played_with.append(group_sup[0])
 
-        self._set_end_time()
-
     def generer_paires_next_rounds(self, players: list):
         # On trie les joueurs par points puis par rang si même nombre de points
         sorted_players = sorted(
@@ -102,76 +106,74 @@ class Round:
 
         # On génère la paire 1
         if sorted_players[0] not in sorted_players[1].has_played_with:
-            paire1 = (sorted_players[0], sorted_players[1])
+            paire1 = Match(sorted_players[0], sorted_players[1])
             available_players.remove(sorted_players[1])
         elif sorted_players[0] not in sorted_players[2].has_played_with:
-            paire1 = (sorted_players[0], sorted_players[2])
+            paire1 = Match(sorted_players[0], sorted_players[2])
             available_players.remove(sorted_players[2])
         elif sorted_players[0] not in sorted_players[3].has_played_with:
-            paire1 = (sorted_players[0], sorted_players[3])
+            paire1 = Match(sorted_players[0], sorted_players[3])
             available_players.remove(sorted_players[3])
         elif sorted_players[0] not in sorted_players[4].has_played_with:
-            paire1 = (sorted_players[0], sorted_players[4])
+            paire1 = Match(sorted_players[0], sorted_players[4])
             available_players.remove(sorted_players[4])
         elif sorted_players[0] not in sorted_players[5].has_played_with:
-            paire1 = (sorted_players[0], sorted_players[5])
+            paire1 = Match(sorted_players[0], sorted_players[5])
             available_players.remove(sorted_players[5])
         elif sorted_players[0] not in sorted_players[6].has_played_with:
-            paire1 = (sorted_players[0], sorted_players[6])
+            paire1 = Match(sorted_players[0], sorted_players[6])
             available_players.remove(sorted_players[6])
         elif sorted_players[0] not in sorted_players[7].has_played_with:
-            paire1 = (sorted_players[0], sorted_players[7])
+            paire1 = Match(sorted_players[0], sorted_players[7])
             available_players.remove(sorted_players[7])
         available_players.remove(sorted_players[0])
 
         # On génère la paire 2
         if available_players[0] not in available_players[1].has_played_with:
-            paire2 = (available_players[0], available_players[1])
+            paire2 = Match(available_players[0], available_players[1])
             available_players.remove(available_players[1])
         elif available_players[0] not in available_players[2].has_played_with:
-            paire2 = (available_players[0], available_players[2])
+            paire2 = Match(available_players[0], available_players[2])
             available_players.remove(available_players[2])
         elif available_players[0] not in available_players[3].has_played_with:
-            paire2 = (available_players[0], available_players[3])
+            paire2 = Match(available_players[0], available_players[3])
             available_players.remove(available_players[3])
         elif available_players[0] not in available_players[4].has_played_with:
-            paire2 = (available_players[0], available_players[4])
+            paire2 = Match(available_players[0], available_players[4])
             available_players.remove(available_players[4])
         elif available_players[0] not in available_players[5].has_played_with:
-            paire2 = (available_players[0], available_players[5])
+            paire2 = Match(available_players[0], available_players[5])
             available_players.remove(available_players[5])
         available_players.remove(sorted_players[0])
 
         # On génère la paire 3
         if available_players[0] not in available_players[1].has_played_with:
-            paire3 = (available_players[0], available_players[1])
+            paire3 = Match(available_players[0], available_players[1])
             available_players.remove(available_players[1])
         elif available_players[0] not in available_players[2].has_played_with:
-            paire3 = (available_players[0], available_players[2])
+            paire3 = Match(available_players[0], available_players[2])
             available_players.remove(available_players[2])
         elif available_players[0] not in available_players[3].has_played_with:
-            paire3 = (available_players[0], available_players[3])
+            paire3 = Match(available_players[0], available_players[3])
             available_players.remove(available_players[3])
         available_players.remove(sorted_players[0])
 
         # On génère la paire 4
         if available_players[0] not in available_players[1].has_played_with:
-            paire4 = (available_players[0], available_players[1])
+            paire4 = Match(available_players[0], available_players[1])
             available_players.remove(available_players[1])
         available_players.remove(sorted_players[0])
 
-        paire1[0].has_played_with.append(paire1[1])
-        paire1[1].has_played_with.append(paire1[0])
+        paire1.player1.has_played_with.append(paire1.player2)
+        paire1.player2.has_played_with.append(paire1.player1)
 
-        paire2[0].has_played_with.append(paire2[1])
-        paire2[1].has_played_with.append(paire2[0])
+        paire2.player1.has_played_with.append(paire2.player2)
+        paire2.player2.has_played_with.append(paire2.player1)
 
-        paire3[0].has_played_with.append(paire3[1])
-        paire3[1].has_played_with.append(paire3[0])
+        paire3.player1.has_played_with.append(paire3.player2)
+        paire3.player2.has_played_with.append(paire3.player1)
 
-        paire4[0].has_played_with.append(paire4[1])
-        paire4[1].has_played_with.append(paire4[0])
+        paire4.player1.has_played_with.append(paire4.player2)
+        paire4.player2.has_played_with.append(paire4.player1)
 
-        print(f'{paire1[0].__str__()} VS {paire1[1].__str__()} \n{paire2[0].__str__()} VS {paire2[1].__str__()} \n{paire3[0].__str__()} VS {paire3[1].__str__()} \n{paire4[0].__str__()} VS {paire4[1].__str__()} \n')
-        print([p.__str__() for p in paire1[0].has_played_with])
-        self._set_end_time()
+        self.match_instances = [paire1, paire2, paire3, paire4]
