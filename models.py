@@ -25,7 +25,8 @@ class Player:
         self.points = 0
         self.has_played_with = []
 
-        # method update
+    def update_ranking(self, new_ranking):
+        self.ranking = int(new_ranking)
 
     def __str__(self):
         return f'{self.first_name} ({self.ranking})'

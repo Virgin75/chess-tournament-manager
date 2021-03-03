@@ -146,7 +146,7 @@ class Edit_player_menu_controller:
             [player.first_name, player.last_name, player.birthdate,
              player.sex, new_ranking])
         if pc.is_data_valid():
-            player.ranking = new_ranking
+            player.update_ranking(int(new_ranking))
 
 
 class Set_matches_results_menu_controller:
@@ -188,7 +188,7 @@ class Set_match_result_menu_controller:
         }
 
     def run(self):
-        choice = Rounds_views().set_match_result_view(self.match)
+        choice = Matches_views().set_match_result_view(self.match)
         action = self.choices.get(choice)
         if action:
             return action[0](action[1])
@@ -225,7 +225,8 @@ class Edit_player_menu_controller:
             [player.first_name, player.last_name, player.birthdate,
              player.sex, new_ranking])
         if pc.is_data_valid():
-            player.ranking = new_ranking
+            nr = int(new_ranking)
+            player.update_ranking(nr)
 
 
 class Tournament_controller:

@@ -60,7 +60,8 @@ class Players_views:
         else:
             print('🧍 Here is the list of players: \n')
             for num, player in enumerate(players, start=1):
-                print(f'{num} - {player.first_name} - Ranked: {player.ranking}')
+                print(
+                    f'{num} - {player.first_name} - Ranked: {player.ranking}')
             print('------------------------------------')
             print('Select a player to edit:')
             choice = input('>>> ')
