@@ -25,8 +25,10 @@ class Player:
         self.points = 0
         self.has_played_with = []
 
+        # method update
+
     def __str__(self):
-        return f'{self.first_name} ({self.ranking}) - {self.points}pts'
+        return f'{self.first_name} ({self.ranking})'
 
 
 class Match:
@@ -35,15 +37,21 @@ class Match:
         self.player2 = player2
         self.player1_score = 0
         self.player2_score = 0
+        self.has_results = False
         self.result = ([self.player1, self.player1_score],
                        [self.player2, self.player2_score])
 
-    def set_results(is_draw: bool, player: Player):
+    def set_results(self, is_draw: bool, winner: Player):
         if is_draw:
             self.player1_score += 0.5
             self.player2_score += 0.5
-        if player == self.player1:
+        if winner == self.player1:
             self.player1_score += 1
+        elif winner == self.player2:
+            self.player2_score += 1
+        self.has_results = True
+
+        return self
 
     def __str__(self):
         return f'{self.player1} VS {self.player2}'

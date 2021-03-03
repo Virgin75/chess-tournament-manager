@@ -19,10 +19,34 @@ class Main_menu_controller:
         self.current_round = 0
         self.round_instances = []
 
+        ''' delete after this line - dummy data'''
+        p1 = Player(*['Pedrito', 'player_last_name',
+                      '11/11/1111', 'm', 333])
+        p2 = Player(*['Paolo', 'player_last_name',
+                      '11/11/1111', 'm', 233])
+        p3 = Player(*['Poberta', 'player_last_name',
+                      '11/11/1111', 'm', 1303])
+        p4 = Player(*['Flabu', 'player_last_name',
+                      '11/11/1111', 'm', 23])
+        p5 = Player(*['Kaku', 'player_last_name',
+                      '11/11/1111', 'm', 3])
+        p6 = Player(*['Toto', 'player_last_name',
+                      '11/11/1111', 'm', 812])
+        p7 = Player(*['Pipi', 'player_last_name',
+                      '11/11/1111', 'm', 13])
+        p8 = Player(*['Popo', 'player_last_name',
+                      '11/11/1111', 'm', 120])
+
+        self.player_instances = [p1, p2, p3, p4, p5, p6, p7, p8]
+        self.players_created = 8
+        self.tournament_created = 1
+        self.tournament_instance = Tournament(
+            'fdfd', 'Paris', '11/11/1111', '11/11/1111', 'desc', 'blitz')
+
     def run(self):
         while True:
             go_to = self.view.main_menu_view(
-                self.players_created, self.tournament_created)
+                self.players_created, self.tournament_created, self.current_round)
             action = self.choices.get(go_to)
             if action:
                 action()
@@ -47,27 +71,6 @@ class Main_menu_controller:
 
     def add_player(self):
         if self.players_created <= 7:
-            '''
-            p1 = Player(*['Pedrito', 'player_last_name',
-                          '11/11/1111', 'm', 333])
-            p2 = Player(*['Paolo', 'player_last_name',
-                          '11/11/1111', 'm', 233])
-            p3 = Player(*['Poberta', 'player_last_name',
-                          '11/11/1111', 'm', 1303])
-            p4 = Player(*['Flabu', 'player_last_name',
-                          '11/11/1111', 'm', 23])
-            p5 = Player(*['Kaku', 'player_last_name',
-                          '11/11/1111', 'm', 3])
-            p6 = Player(*['Toto', 'player_last_name',
-                          '11/11/1111', 'm', 812])
-            p7 = Player(*['Pipi', 'player_last_name',
-                          '11/11/1111', 'm', 13])
-            p8 = Player(*['Popo', 'player_last_name',
-                          '11/11/1111', 'm', 120])
-
-            self.player_instances = [p1, p2, p3, p4, p5, p6, p7, p8]
-            self.players_created = 8
-            '''
             player_data = Views().create_player_view(self.players_created + 1)
             pc = Player_controller(player_data)
             if pc.is_data_valid():
@@ -110,10 +113,93 @@ class Main_menu_controller:
         else:
             pass
 
+        # Set the round results
+        rc = Set_matches_results_menu_controller(match_list)
+        rc.run()
+
         self.current_round += 1
 
     def generate_reports(self):
         pass
+
+
+class Edit_player_menu_controller:
+    def __init__(self, players):
+        self.view = Views()
+        self.players = players
+        self.choices = {}
+        for num, player in enumerate(self.players, start=1):
+            self.choices[str(num)] = (self.edit_player, player)
+
+    def run(self):
+        choice = self.view.edit_players_view(self.players)
+        action = self.choices.get(choice)
+        if action:
+            action[0](action[1])
+        else:
+            print(f'{choice} is not a valid choice.')
+
+    def edit_player(self, player):
+        new_ranking = self.view.edit_player_view(player)
+        pc = Player_controller(
+            [player.first_name, player.last_name, player.birthdate,
+             player.sex, new_ranking])
+        if pc.is_data_valid():
+            player.ranking = new_ranking
+
+
+class Set_matches_results_menu_controller:
+    def __init__(self, matches):
+        self.view = Views()
+        self.matches = matches
+        self.matches_instances = []
+        self.results_set = 0
+        self.choices = {}
+        for num, match in enumerate(self.matches, start=1):
+            self.choices[str(num)] = (self.set_match_result, match)
+
+    def run(self):
+        while self.results_set < 4:
+            choice = self.view.set_matches_result_view(self.matches)
+            action = self.choices.get(choice)
+            if action:
+                action[0](action[1])
+            else:
+                print(f'{choice} is not a valid choice.')
+                self.run()
+
+    def set_match_result(self, match):
+        smc = Set_match_result_menu_controller(match)
+        match_instance = smc.run()
+        self.matches_instances.append(match_instance)
+        if match_instance not in self.matches_instances:
+            self.results_set += 1
+
+
+class Set_match_result_menu_controller:
+    def __init__(self, match):
+        self.view = Views()
+        self.match = match
+        self.choices = {
+            "1": (self.set_winner, match.player1),
+            "2": (self.set_winner, match.player2),
+            "3": (self.set_draw, None)
+        }
+
+    def run(self):
+        choice = self.view.set_match_result_view(self.match)
+        action = self.choices.get(choice)
+        if action:
+            return action[0](action[1])
+        else:
+            print(f'{choice} is not a valid choice.')
+            self.run()
+
+    def set_winner(self, player):
+        return self.match.set_results(is_draw=False, winner=player)
+
+    def set_draw(self, _):
+        return self.match.set_results(is_draw=True, winner=None)
 
 
 class Edit_player_menu_controller:

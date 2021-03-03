@@ -2,7 +2,7 @@ import re
 
 
 class Views:
-    def main_menu_view(self, nb_players, nb_tournament):
+    def main_menu_view(self, nb_players, nb_tournament, current_round):
         print('🏆 MENU - Chess Tournament Manager')
         print('------------------------------------')
         if nb_tournament >= 1:
@@ -16,7 +16,11 @@ class Views:
         else:
             print('     2 - \u001b[33mAdd a new player\033[0m')
         print('     3 - \u001b[33mEdit a player ranking\033[0m')
-        print('     4 - \u001b[33mStart the round\033[0m')
+        if current_round == 0:
+            print('     4 - \u001b[33mStart the 1st round\033[0m')
+        else:
+            print(
+                f'     4 - \u001b[33mStart the next round\033[0m --- {current_round}/4 round(s) done.')
         print('     5 - \u001b[33mGenerate reports\033[0m')
         print('------------------------------------')
         print('Please input a number between 1 & 5 to choose what to do:')
@@ -98,6 +102,33 @@ class Views:
 
             return choice
 
+    def set_matches_result_view(self, matches):
+
+        print('🎉 Select a number to set the result as soon as a game is over: \n')
+        for num, match in enumerate(matches, start=1):
+            if match.has_results:
+                print(
+                    f'     {num} - {match} - \u001b[33m Result: {match.player1_score}pts - {match.player2_score}pts\033[0m')
+            else:
+                print(f'     {num} - {match}')
+        print('------------------------------------')
+        print('Select a match to set the results:')
+        choice = input('>>> ')
+        print('------------------------------------\n')
+
+        return choice
+
+    def set_match_result_view(self, match):
+        print('\n What is the result of this match: \n')
+        print('------------------------------------\n')
+        print(f'        1 - {match.player1} is the winner.')
+        print(f'        2 - {match.player2} is the winner.')
+        print(f'        3 - There is no winner...')
+        choice = input('>>> ')
+        print('------------------------------------\n')
+
+        return choice
+
     def edit_player_view(self, player):
         print(f'What is the new ranking of {player.first_name}')
         print(f' - Current ranking: {player.ranking}')
@@ -107,10 +138,10 @@ class Views:
         return ranking
 
     def display_matches_view(self, match_list):
-        print('------------------------------------')
+        print('Here are the matches of the round: \n')
         for match in match_list:
             print(match.__str__())
-        print('------------------------------------')
+        print('------------------------------------\n')
 
     def error_view(self, error):
         print(
