@@ -1,0 +1,87 @@
+{
+    "players": {
+        "1": {
+            "birthdate": "11/11/1111",
+            "first_name": "Pedrito",
+            "has_played_with": [],
+            "id": 140167480624848,
+            "last_name": "player_last_name",
+            "points": 0,
+            "ranking": 333,
+            "sex": "m"
+        }
+    },
+    "tournaments": {
+        "1": {
+            "description": "desc",
+            "end_date": "11/11/1111",
+            "name": "fdfd",
+            "nb_rounds": 4,
+            "place": "Paris",
+            "players": [],
+            "rounds": [
+                [
+                    "R1",
+                    "07/03/2021 12:15:40",
+                    "07/03/2021 12:15:48",
+                    [
+                        [
+                            [
+                                "Poberta",
+                                "player_last_name"
+                            ],
+                            [
+                                "Popo",
+                                "player_last_name"
+                            ],
+                            1,
+                            0,
+                            true
+                        ],
+                        [
+                            [
+                                "Toto",
+                                "player_last_name"
+                            ],
+                            [
+                                "Flabu",
+                                "player_last_name"
+                            ],
+                            1,
+                            0,
+                            true
+                        ],
+                        [
+                            [
+                                "Pedrito",
+                                "player_last_name"
+                            ],
+                            [
+                                "Pipi",
+                                "player_last_name"
+                            ],
+                            1,
+                            0,
+                            true
+                        ],
+                        [
+                            [
+                                "Paolo",
+                                "player_last_name"
+                            ],
+                            [
+                                "Kaku",
+                                "player_last_name"
+                            ],
+                            1,
+                            0,
+                            true
+                        ]
+                    ]
+                ]
+            ],
+            "start_date": "11/11/1111",
+            "time_control": "blitz"
+        }
+    }
+}

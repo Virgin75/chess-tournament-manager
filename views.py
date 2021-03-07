@@ -151,6 +151,7 @@ class Views:
             print(
                 f'     4 - \u001b[33mStart the next round\033[0m --- {current_round}/4 round(s) done.')
         print('     5 - \u001b[33mGenerate reports\033[0m')
+        print('     6 - \u001b[33mImport Data\033[0m')
         print('------------------------------------')
         print('Please input a number between 1 & 5 to choose what to do:')
         choice = input('>>> ')

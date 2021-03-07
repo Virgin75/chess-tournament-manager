@@ -10,7 +10,8 @@ class Main_menu_controller:
             "2": self.add_player,
             "3": self.edit_player,
             "4": self.start_round,
-            "5": self.generate_reports
+            "5": self.generate_reports,
+            "6": self.import_data
         }
         self.players_created = 0
         self.player_instances = []
@@ -36,12 +37,14 @@ class Main_menu_controller:
                       '11/11/1111', 'm', 13])
         p8 = Player(*['Popo', 'player_last_name',
                       '11/11/1111', 'm', 120])
+        p1.save_to_db()
 
         self.player_instances = [p1, p2, p3, p4, p5, p6, p7, p8]
         self.players_created = 8
         self.tournament_created = 1
         self.tournament_instance = Tournament(
             'fdfd', 'Paris', '11/11/1111', '11/11/1111', 'desc', 'blitz')
+        self.tournament_instance.save_to_db()
 
     def run(self):
         while True:
@@ -62,10 +65,12 @@ class Main_menu_controller:
                 Tournament_views().success_message_tournament(tournament.name)
                 self.tournament_created += 1
                 self.tournament_instance = tournament
+                tournament.save_to_db()
         else:
             '''A tournament has already been created'''
             start_again = Tournament_views().restart_tournament_creation_view()
             if start_again.upper() == "Y":
+                self.tournament_instance.delete_from_db()
                 self.tournament_created = 0
                 self.create_tournament()
 
@@ -79,6 +84,8 @@ class Main_menu_controller:
                     player.first_name, player.last_name)
                 self.players_created += 1
                 self.player_instances.append(player)
+                player.save_to_db()
+                self.tournament_instance.update_players_list(player)
         else:
             '''More than 8 player have already been created'''
             Players_views().too_many_players_view()
@@ -118,9 +125,13 @@ class Main_menu_controller:
         rc.run()
 
         my_round.set_end_time()
+        self.tournament_instance.update_rounds_list(my_round)
         self.current_round += 1
 
     def generate_reports(self):
+        pass
+
+    def import_data(self):
         pass
 
 
