@@ -5,6 +5,7 @@ from db import *
 
 class Tournament:
     def __init__(self, name: str, place: str, start_date: str, end_date: str, description: str, time_control: str):
+        self.id = id(self)
         self.name = name
         self.place = place
         self.start_date = start_date
@@ -13,20 +14,16 @@ class Tournament:
         self.time_control = time_control
         self.nb_rounds = 4
         self.rounds = []
-        self.players = []
+        self.players = []  # list of player IDs
 
     def save_to_db(self):
         tournaments_table.insert(self.__dict__)
 
     def update_players_list(self, player_to_add):
-        self.players.append(player_to_add)
+        self.players.append(player_to_add.id)
         tq = Query()
-        serialized_players_list = []
-        for player in self.players:
-            p = player.__dict__
-            serialized_players_list.append(p)
         tournaments_table.update(
-            {'players': serialized_players_list}, tq.name == self.name)
+            {'players': self.players}, tq.name == self.name)
 
     def update_rounds_list(self, round_to_add):
         self.rounds.append(round_to_add)
@@ -36,18 +33,19 @@ class Tournament:
             serialized_matches_list = []
             for match in ronde.match_instances:
 
-                m = [[match.player1.first_name, match.player1.last_name], [match.player2.first_name, match.player2.last_name],
-                     match.player1_score, match.player2_score, match.has_results]
+                m = match._serialized_match()
                 serialized_matches_list.append(m)
 
-            r = [ronde.name, ronde.start_datetime,
-                 ronde.end_datetime, serialized_matches_list]
+            r = {
+                "name": ronde.name,
+                "tournament_id": ronde.tournament_id,
+                "start_datetime": ronde.start_datetime,
+                "end_datetime": ronde.end_datetime,
+                "matches_list": serialized_matches_list
+            }
             serialized_rounds_list.append(r)
         tournaments_table.update(
             {'rounds': serialized_rounds_list}, tq.name == self.name)
-
-    def delete_from_db(self):
-        tournaments_table.remove(name=self.name)
 
 
 class Player:
@@ -64,8 +62,14 @@ class Player:
     def update_ranking(self, new_ranking):
         self.ranking = int(new_ranking)
         pq = Query()
-        players_table.update({'ranking': int(new_ranking)}, pq.first_name ==
-                             self.first_name and pq.last_name == self.last_name)
+        players_table.update({'ranking': int(new_ranking)}, pq.id ==
+                             self.id)
+
+    def update_has_played_with(self, add_player):
+        self.has_played_with.append(add_player)
+        pq = Query()
+        players_table.update(
+            {'has_played_with': self.has_played_with}, pq.id == self.id)
 
     def save_to_db(self):
         players_table.insert(self.__dict__)
@@ -106,10 +110,10 @@ class Match:
     def __str__(self):
         return f'{self.player1} VS {self.player2}'
 
-    def serialized_match(self):
+    def _serialized_match(self):
         serialized_data = {
-            "player1": self.player1.__dict__,
-            "player2": self.player2.__dict__,
+            "player1_id": self.player1.id,
+            "player2_id": self.player2.id,
             "player1_score": self.player1_score,
             "player2_score": self.player2_score,
             "has_results": self.has_results
@@ -118,12 +122,13 @@ class Match:
 
 
 class Round:
-    def __init__(self, name: str):
+    def __init__(self, name: str, tournament_id: int):
         now = datetime.now()
         self.name = name
         self.start_datetime = now.strftime("%d/%m/%Y %H:%M:%S")
         self.end_datetime = ''
         self.match_instances = []
+        self.tournament_id = tournament_id
 
     def set_end_time(self):
         now = datetime.now()
@@ -141,14 +146,14 @@ class Round:
 
         self.match_instances = [paire1, paire2, paire3, paire4]
 
-        group_sup[3].has_played_with.append(group_inf[3].id)
-        group_inf[3].has_played_with.append(group_sup[3].id)
-        group_sup[2].has_played_with.append(group_inf[2].id)
-        group_inf[2].has_played_with.append(group_sup[2].id)
-        group_sup[1].has_played_with.append(group_inf[1].id)
-        group_inf[1].has_played_with.append(group_sup[1].id)
-        group_sup[0].has_played_with.append(group_inf[0].id)
-        group_inf[0].has_played_with.append(group_sup[0].id)
+        group_sup[3].update_has_played_with(group_inf[3].id)
+        group_inf[3].update_has_played_with(group_sup[3].id)
+        group_sup[2].update_has_played_with(group_inf[2].id)
+        group_inf[2].update_has_played_with(group_sup[2].id)
+        group_sup[1].update_has_played_with(group_inf[1].id)
+        group_inf[1].update_has_played_with(group_sup[1].id)
+        group_sup[0].update_has_played_with(group_inf[0].id)
+        group_inf[0].update_has_played_with(group_sup[0].id)
 
     def generer_paires_next_rounds(self, players: list):
         # On trie les joueurs par points puis par rang si même nombre de points
@@ -218,16 +223,16 @@ class Round:
             available_players.remove(available_players[1])
         available_players.remove(sorted_players[0])
 
-        paire1.player1.has_played_with.append(paire1.player2.id)
-        paire1.player2.has_played_with.append(paire1.player1.id)
+        paire1.player1.update_has_played_with(paire1.player2.id)
+        paire1.player2.update_has_played_with(paire1.player1.id)
 
-        paire2.player1.has_played_with.append(paire2.player2.id)
-        paire2.player2.has_played_with.append(paire2.player1.id)
+        paire2.player1.update_has_played_with(paire2.player2.id)
+        paire2.player2.update_has_played_with(paire2.player1.id)
 
-        paire3.player1.has_played_with.append(paire3.player2.id)
-        paire3.player2.has_played_with.append(paire3.player1.id)
+        paire3.player1.update_has_played_with(paire3.player2.id)
+        paire3.player2.update_has_played_with(paire3.player1.id)
 
-        paire4.player1.has_played_with.append(paire4.player2.id)
-        paire4.player2.has_played_with.append(paire4.player1.id)
+        paire4.player1.update_has_played_with(paire4.player2.id)
+        paire4.player2.update_has_played_with(paire4.player1.id)
 
         self.match_instances = [paire1, paire2, paire3, paire4]

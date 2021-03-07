@@ -1,87 +1,446 @@
 {
     "players": {
         "1": {
-            "birthdate": "11/11/1111",
+            "id": 140349798880976,
             "first_name": "Pedrito",
-            "has_played_with": [],
-            "id": 140167480624848,
             "last_name": "player_last_name",
-            "points": 0,
+            "birthdate": "11/11/1111",
+            "sex": "m",
             "ranking": 333,
-            "sex": "m"
+            "points": 0,
+            "has_played_with": [
+                140349797492720,
+                140349798881168,
+                140349798881120,
+                140349797493008
+            ]
+        },
+        "2": {
+            "id": 140349798881168,
+            "first_name": "Paolo",
+            "last_name": "player_last_name",
+            "birthdate": "11/11/1111",
+            "sex": "m",
+            "ranking": 233,
+            "points": 0,
+            "has_played_with": [
+                140349797492960,
+                140349798880976,
+                140349797493008,
+                140349798881120
+            ]
+        },
+        "3": {
+            "id": 140349798881120,
+            "first_name": "Poberta",
+            "last_name": "player_last_name",
+            "birthdate": "11/11/1111",
+            "sex": "m",
+            "ranking": 1303,
+            "points": 0,
+            "has_played_with": [
+                140349797493536,
+                140349797493008,
+                140349798880976,
+                140349798881168
+            ]
+        },
+        "4": {
+            "id": 140349798882848,
+            "first_name": "Flabu",
+            "last_name": "player_last_name",
+            "birthdate": "11/11/1111",
+            "sex": "m",
+            "ranking": 23,
+            "points": 0,
+            "has_played_with": [
+                140349797493008,
+                140349797493536,
+                140349797492960,
+                140349797492720
+            ]
+        },
+        "5": {
+            "id": 140349797492960,
+            "first_name": "Kaku",
+            "last_name": "player_last_name",
+            "birthdate": "11/11/1111",
+            "sex": "m",
+            "ranking": 3,
+            "points": 0,
+            "has_played_with": [
+                140349798881168,
+                140349797492720,
+                140349798882848,
+                140349797493536
+            ]
+        },
+        "6": {
+            "id": 140349797493008,
+            "first_name": "Toto",
+            "last_name": "player_last_name",
+            "birthdate": "11/11/1111",
+            "sex": "m",
+            "ranking": 812,
+            "points": 0,
+            "has_played_with": [
+                140349798882848,
+                140349798881120,
+                140349798881168,
+                140349798880976
+            ]
+        },
+        "7": {
+            "id": 140349797492720,
+            "first_name": "Pipi",
+            "last_name": "player_last_name",
+            "birthdate": "11/11/1111",
+            "sex": "m",
+            "ranking": 13,
+            "points": 0,
+            "has_played_with": [
+                140349798880976,
+                140349797492960,
+                140349797493536,
+                140349798882848
+            ]
+        },
+        "8": {
+            "id": 140349797493536,
+            "first_name": "Popo",
+            "last_name": "player_last_name",
+            "birthdate": "11/11/1111",
+            "sex": "m",
+            "ranking": 120,
+            "points": 0,
+            "has_played_with": [
+                140349798881120,
+                140349798882848,
+                140349797492720,
+                140349797492960
+            ]
+        },
+        "9": {
+            "id": 140349796682816,
+            "first_name": "Pedu",
+            "last_name": "Pau",
+            "birthdate": "22/11/1993",
+            "sex": "M",
+            "ranking": 766,
+            "points": 0,
+            "has_played_with": [
+                140349796716352
+            ]
+        },
+        "10": {
+            "id": 140349796672656,
+            "first_name": "Virgin",
+            "last_name": "Rr",
+            "birthdate": "11/11/1111",
+            "sex": "F",
+            "ranking": 833,
+            "points": 0,
+            "has_played_with": [
+                140349796714192
+            ]
+        },
+        "11": {
+            "id": 140349796632416,
+            "first_name": "HJ",
+            "last_name": "efe",
+            "birthdate": "11/11/1111",
+            "sex": "M",
+            "ranking": 112,
+            "points": 0,
+            "has_played_with": [
+                140349796715344
+            ]
+        },
+        "12": {
+            "id": 140349796716352,
+            "first_name": "Ikk",
+            "last_name": "llm",
+            "birthdate": "11/11/1111",
+            "sex": "M",
+            "ranking": 73,
+            "points": 0,
+            "has_played_with": [
+                140349796682816
+            ]
+        },
+        "13": {
+            "id": 140349796716208,
+            "first_name": "Iopp",
+            "last_name": "ML",
+            "birthdate": "11/11/1111",
+            "sex": "F",
+            "ranking": 555,
+            "points": 0,
+            "has_played_with": [
+                140349796715296
+            ]
+        },
+        "14": {
+            "id": 140349796715296,
+            "first_name": "Sixx",
+            "last_name": "de",
+            "birthdate": "11/11/1111",
+            "sex": "M",
+            "ranking": 899,
+            "points": 0,
+            "has_played_with": [
+                140349796716208
+            ]
+        },
+        "15": {
+            "id": 140349796715344,
+            "first_name": "Pseven",
+            "last_name": "ff",
+            "birthdate": "11/11/1111",
+            "sex": "M",
+            "ranking": 773,
+            "points": 0,
+            "has_played_with": [
+                140349796632416
+            ]
+        },
+        "16": {
+            "id": 140349796714192,
+            "first_name": "kdf",
+            "last_name": "ded",
+            "birthdate": "11/11/1111",
+            "sex": "F",
+            "ranking": 288,
+            "points": 0,
+            "has_played_with": [
+                140349796672656
+            ]
         }
     },
     "tournaments": {
         "1": {
-            "description": "desc",
-            "end_date": "11/11/1111",
+            "id": 140349797565632,
             "name": "fdfd",
-            "nb_rounds": 4,
             "place": "Paris",
-            "players": [],
-            "rounds": [
-                [
-                    "R1",
-                    "07/03/2021 12:15:40",
-                    "07/03/2021 12:15:48",
-                    [
-                        [
-                            [
-                                "Poberta",
-                                "player_last_name"
-                            ],
-                            [
-                                "Popo",
-                                "player_last_name"
-                            ],
-                            1,
-                            0,
-                            true
-                        ],
-                        [
-                            [
-                                "Toto",
-                                "player_last_name"
-                            ],
-                            [
-                                "Flabu",
-                                "player_last_name"
-                            ],
-                            1,
-                            0,
-                            true
-                        ],
-                        [
-                            [
-                                "Pedrito",
-                                "player_last_name"
-                            ],
-                            [
-                                "Pipi",
-                                "player_last_name"
-                            ],
-                            1,
-                            0,
-                            true
-                        ],
-                        [
-                            [
-                                "Paolo",
-                                "player_last_name"
-                            ],
-                            [
-                                "Kaku",
-                                "player_last_name"
-                            ],
-                            1,
-                            0,
-                            true
-                        ]
-                    ]
-                ]
-            ],
             "start_date": "11/11/1111",
-            "time_control": "blitz"
+            "end_date": "11/11/1111",
+            "description": "desc",
+            "time_control": "blitz",
+            "nb_rounds": 4,
+            "rounds": [
+                {
+                    "name": "Round 1",
+                    "tournament_id": 140349797565632,
+                    "start_datetime": "07/03/2021 19:07:39",
+                    "end_datetime": "07/03/2021 19:07:44",
+                    "matches_list": [
+                        {
+                            "player1_id": 140349798881120,
+                            "player2_id": 140349797493536,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        },
+                        {
+                            "player1_id": 140349797493008,
+                            "player2_id": 140349798882848,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        },
+                        {
+                            "player1_id": 140349798880976,
+                            "player2_id": 140349797492720,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        },
+                        {
+                            "player1_id": 140349798881168,
+                            "player2_id": 140349797492960,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        }
+                    ]
+                },
+                {
+                    "name": "Round 2",
+                    "tournament_id": 140349797565632,
+                    "start_datetime": "07/03/2021 19:07:47",
+                    "end_datetime": "07/03/2021 19:07:53",
+                    "matches_list": [
+                        {
+                            "player1_id": 140349797492960,
+                            "player2_id": 140349797492720,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        },
+                        {
+                            "player1_id": 140349798882848,
+                            "player2_id": 140349797493536,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        },
+                        {
+                            "player1_id": 140349798881168,
+                            "player2_id": 140349798880976,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        },
+                        {
+                            "player1_id": 140349797493008,
+                            "player2_id": 140349798881120,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        }
+                    ]
+                },
+                {
+                    "name": "Round 3",
+                    "tournament_id": 140349797565632,
+                    "start_datetime": "07/03/2021 19:07:58",
+                    "end_datetime": "07/03/2021 19:08:05",
+                    "matches_list": [
+                        {
+                            "player1_id": 140349797492960,
+                            "player2_id": 140349798882848,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        },
+                        {
+                            "player1_id": 140349797492720,
+                            "player2_id": 140349797493536,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        },
+                        {
+                            "player1_id": 140349798881168,
+                            "player2_id": 140349797493008,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        },
+                        {
+                            "player1_id": 140349798880976,
+                            "player2_id": 140349798881120,
+                            "player1_score": 0.5,
+                            "player2_score": 0.5,
+                            "has_results": true
+                        }
+                    ]
+                },
+                {
+                    "name": "Round 4",
+                    "tournament_id": 140349797565632,
+                    "start_datetime": "07/03/2021 19:08:10",
+                    "end_datetime": "07/03/2021 19:08:15",
+                    "matches_list": [
+                        {
+                            "player1_id": 140349797492960,
+                            "player2_id": 140349797493536,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        },
+                        {
+                            "player1_id": 140349797492720,
+                            "player2_id": 140349798882848,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        },
+                        {
+                            "player1_id": 140349798881168,
+                            "player2_id": 140349798881120,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        },
+                        {
+                            "player1_id": 140349798880976,
+                            "player2_id": 140349797493008,
+                            "player1_score": 0.5,
+                            "player2_score": 0.5,
+                            "has_results": true
+                        }
+                    ]
+                }
+            ],
+            "players": [
+                140349798880976,
+                140349798881168,
+                140349798881120,
+                140349798882848,
+                140349797492960,
+                140349797493008,
+                140349797492720,
+                140349797493536
+            ]
+        },
+        "2": {
+            "id": 140349796682432,
+            "name": "Tournoi 2",
+            "place": "London",
+            "start_date": "22/11/1992",
+            "end_date": "22/11/1992",
+            "description": "Blitz",
+            "time_control": "Desc",
+            "nb_rounds": 4,
+            "rounds": [
+                {
+                    "name": "Round 1",
+                    "tournament_id": 140349796682432,
+                    "start_datetime": "07/03/2021 19:18:48",
+                    "end_datetime": "07/03/2021 19:18:54",
+                    "matches_list": [
+                        {
+                            "player1_id": 140349796715296,
+                            "player2_id": 140349796716208,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        },
+                        {
+                            "player1_id": 140349796672656,
+                            "player2_id": 140349796714192,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        },
+                        {
+                            "player1_id": 140349796715344,
+                            "player2_id": 140349796632416,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        },
+                        {
+                            "player1_id": 140349796682816,
+                            "player2_id": 140349796716352,
+                            "player1_score": 1,
+                            "player2_score": 0,
+                            "has_results": true
+                        }
+                    ]
+                }
+            ],
+            "players": [
+                140349796682816,
+                140349796672656,
+                140349796632416,
+                140349796716352,
+                140349796716208,
+                140349796715296,
+                140349796715344,
+                140349796714192
+            ]
         }
     }
 }

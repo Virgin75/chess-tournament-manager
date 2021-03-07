@@ -14,12 +14,8 @@ class Tournament_views:
 
         return [name, place, start_date, end_date, time_control, description]
 
-    def restart_tournament_creation_view(self):
-        print('Un tournoi a déjà été créé...')
-        choice = input(
-            'Souhaitez-vous recommencer la création du tournoi ? (Y/N) : ')
-
-        return choice
+    def already_created_view(self):
+        print("Un tournoi a déjà été créé... Veuillez le terminer avant d'en créer un nouveau.\n")
 
     def no_tournament_created_view(self):
         print('\n - \n Please input "1" and create a Tournament before starting the first round.. \n - \n')

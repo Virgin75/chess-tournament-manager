@@ -38,6 +38,13 @@ class Main_menu_controller:
         p8 = Player(*['Popo', 'player_last_name',
                       '11/11/1111', 'm', 120])
         p1.save_to_db()
+        p2.save_to_db()
+        p3.save_to_db()
+        p4.save_to_db()
+        p5.save_to_db()
+        p6.save_to_db()
+        p7.save_to_db()
+        p8.save_to_db()
 
         self.player_instances = [p1, p2, p3, p4, p5, p6, p7, p8]
         self.players_created = 8
@@ -45,9 +52,25 @@ class Main_menu_controller:
         self.tournament_instance = Tournament(
             'fdfd', 'Paris', '11/11/1111', '11/11/1111', 'desc', 'blitz')
         self.tournament_instance.save_to_db()
+        self.tournament_instance.update_players_list(p1)
+        self.tournament_instance.update_players_list(p2)
+        self.tournament_instance.update_players_list(p3)
+        self.tournament_instance.update_players_list(p4)
+        self.tournament_instance.update_players_list(p5)
+        self.tournament_instance.update_players_list(p6)
+        self.tournament_instance.update_players_list(p7)
+        self.tournament_instance.update_players_list(p8)
 
     def run(self):
         while True:
+            if len(self.round_instances) == 4:
+                '''When all the rounds have been played, a new tournament can be created'''
+                self.players_created = 0
+                self.player_instances = []
+                self.tournament_created = 0
+                self.tournament_instance = None
+                self.current_round = 0
+                self.round_instances = []
             go_to = self.view.main_menu_view(
                 self.players_created, self.tournament_created, self.current_round)
             action = self.choices.get(go_to)
@@ -68,11 +91,7 @@ class Main_menu_controller:
                 tournament.save_to_db()
         else:
             '''A tournament has already been created'''
-            start_again = Tournament_views().restart_tournament_creation_view()
-            if start_again.upper() == "Y":
-                self.tournament_instance.delete_from_db()
-                self.tournament_created = 0
-                self.create_tournament()
+            Tournament_views().already_created_view()
 
     def add_player(self):
         if self.players_created <= 7:
@@ -96,7 +115,6 @@ class Main_menu_controller:
         edit_player_controller.run()
 
     def start_round(self):
-
         # The round cannot start if one of the 3 conditions below is met
         if self.players_created < 8:
             return Players_views().not_enough_players_view()
@@ -106,7 +124,7 @@ class Main_menu_controller:
             return Rounds_views().no_more_round_view()
 
         round_name = Rounds_views().start_round_view(self.current_round)
-        my_round = Round(round_name)
+        my_round = Round(round_name, self.tournament_instance.id)
         self.round_instances.append(my_round)
 
         # Generate paires first round
