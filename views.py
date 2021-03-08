@@ -54,7 +54,7 @@ class Players_views:
         if players == []:
             print('\n - \n There is no player in the tournament... \n - \n')
         else:
-            print('🧍 Here is the list of players: \n')
+            print('🧍 Here is the list of players in the tournament: \n')
             for num, player in enumerate(players, start=1):
                 print(
                     f'{num} - {player.first_name} - Ranked: {player.ranking}')
@@ -126,13 +126,80 @@ class Matches_views:
         return choice
 
 
+class Reports_views:
+    def choose_report_view(self):
+        print('\n📊 Choose a report to display: ')
+        print('------------------------------------\n')
+        print(f'        1 - Display all players from all of the tournaments played.')
+        print(f'        2 - Display all players by tournament.')
+        print(f'        3 - Display all the tournaments.')
+        print(f'        4 - Display all the rounds by tournament.')
+        print(f'        5 - Display all the matches by tournament.')
+        choice = input('>>> ')
+        print('------------------------------------\n')
+
+        return choice
+
+    def get_all_players_view(self, players, tournament_name):
+        sorted_players = []
+        print(
+            f'Tournament name: {str(tournament_name)} - Type "A" to sort them by Alphabetical order or "R" to sort them by their ranking:')
+        choice = input('>>> ')
+        if tournament_name is not None:
+            print(
+                f'\nHere is the list of all the players from {tournament_name}: ')
+        else:
+            print('\nHere is the list of all the players: ')
+        print('------------------------------------\n')
+        if choice in ('a', 'A'):
+            sorted_player = sorted(
+                players,  key=lambda player: player["first_name"])
+
+        elif choice in ('r', 'R'):
+            sorted_player = sorted(
+                players,  key=lambda player: player["ranking"])
+
+        for num, player in enumerate(sorted_player, start=1):
+            print(
+                f'     {num} - {player["sex"]} - {player["first_name"]} {player["last_name"]} ({player["ranking"]}), born on {player["birthdate"]}')
+        print('------------------------------------\n')
+
+    def get_all_tournaments_view(self, tournaments):
+        print('\nHere is the list of all the tournaments: ')
+        print('------------------------------------\n')
+        for num, tournament in enumerate(tournaments, start=1):
+            print(
+                f'     {num} - Name: {tournament["name"]} - Place: {tournament["place"]} - Date: {tournament["start_date"]} > {tournament["end_date"]}. Description: {tournament["description"]} - Time control: {tournament["time_control"]}.')
+        print('------------------------------------\n')
+
+    def choose_tournament_view(self, tournaments):
+        print('\nPlease choose a tournament from the list below: ')
+        print('------------------------------------\n')
+        for num, tournament in enumerate(tournaments, start=1):
+            print(
+                f'     {num} - Name: {tournament["name"]} - Place: {tournament["place"]} - Date: {tournament["start_date"]} > {tournament["end_date"]}.')
+        choice = input('>>> ')
+        print('------------------------------------\n')
+
+        return choice
+
+    def get_players_from_tournament(players):
+        print(
+            f'\nHere is the list of all the players who played in this tournament: ')
+        print('------------------------------------\n')
+        for num, player in enumerate(players, start=1):
+            print(
+                f'     {num} - {player["sex"]} - {player["first_name"]} {player["last_name"]} ({player["ranking"]}), born on {player["birthdate"]} - {player["points"]}pts')
+        print('------------------------------------\n')
+
+
 class Views:
-    def main_menu_view(self, nb_players, nb_tournament, current_round):
+    def main_menu_view(self, nb_players, nb_tournament, current_round, tournament_instance):
         print('🏆 MENU - Chess Tournament Manager')
         print('------------------------------------')
         if nb_tournament >= 1:
             print(
-                '     1 -\u001b[33m Create a new tournament\033[0m --- DONE')
+                f'     1 -\u001b[33m Create a new tournament\033[0m --- Tournament created: {tournament_instance.name}, {tournament_instance.place}')
         else:
             print('     1 - \u001b[33mCreate a new tournament\033[0m')
         if nb_players:

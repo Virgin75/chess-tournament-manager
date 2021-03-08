@@ -1,5 +1,6 @@
 from models import *
 from views import *
+from db import *
 
 
 class Main_menu_controller:
@@ -72,7 +73,7 @@ class Main_menu_controller:
                 self.current_round = 0
                 self.round_instances = []
             go_to = self.view.main_menu_view(
-                self.players_created, self.tournament_created, self.current_round)
+                self.players_created, self.tournament_created, self.current_round, self.tournament_instance)
             action = self.choices.get(go_to)
             if action:
                 action()
@@ -147,7 +148,8 @@ class Main_menu_controller:
         self.current_round += 1
 
     def generate_reports(self):
-        pass
+        grmc = Generate_reports_menu_controller()
+        grmc.run()
 
     def import_data(self):
         pass
@@ -234,7 +236,6 @@ class Set_match_result_menu_controller:
 
 class Edit_player_menu_controller:
     def __init__(self, players):
-        self.view = Views()
         self.players = players
         self.choices = {}
         for num, player in enumerate(self.players, start=1):
@@ -256,6 +257,51 @@ class Edit_player_menu_controller:
         if pc.is_data_valid():
             nr = int(new_ranking)
             player.update_ranking(nr)
+
+
+class Generate_reports_menu_controller:
+    def __init__(self):
+        self.view = Reports_views()
+        self.data = database
+        self.choices = {
+            "1": self.get_all_players,
+            "2": self.get_players_from_tournament,
+            "3": self.get_all_tournaments,
+            "4": self.get_rounds_from_tournament,
+            "5": self.get_matches_from_tournament
+        }
+
+    def run(self):
+        choice = self.view.choose_report_view()
+        action = self.choices.get(choice)
+        if action:
+            action()
+        else:
+            print(f'{choice} is not a valid choice.')
+
+    def get_all_players(self):
+        self.view.get_all_players_view(self.data.table('players'), None)
+
+    def get_all_tournaments(self):
+        self.view.get_all_tournaments_view(self.data.table('tournaments'))
+
+    def get_players_from_tournament(self):
+        players_list = self.data.table('players')
+        final_list = []
+        for tournament in self.data.table('tournaments'):
+            tournament_players = tournament["players"]
+            for player_id in tournament_players:
+                res = [
+                    element for element in players_list if element['id'] == player_id]
+                final_list.append(res[0])
+            self.view.get_all_players_view(final_list, tournament["name"])
+            final_list.clear()
+
+    def get_rounds_from_tournament(self):
+        pass
+
+    def get_matches_from_tournament(self):
+        pass
 
 
 class Tournament_controller:
