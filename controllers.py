@@ -298,10 +298,34 @@ class Generate_reports_menu_controller:
             final_list.clear()
 
     def get_rounds_from_tournament(self):
-        pass
+        final_list = []
+        for tournament in self.data.table('tournaments'):
+            for my_round in tournament["rounds"]:
+                final_list.append(my_round)
+            self.view.get_rounds_from_tournament(
+                final_list, tournament["name"])
+            final_list.clear()
 
     def get_matches_from_tournament(self):
-        pass
+        match_list = []
+
+        for tournament in self.data.table('tournaments'):
+            for my_round in tournament["rounds"]:
+                for match in my_round["matches_list"]:
+                    match_list.append(match)
+
+            for m in match_list:
+                User = Query()
+                p1 = database.table('players').search(
+                    User.id == m["player1_id"])
+                p2 = database.table('players').search(
+                    User.id == m["player2_id"])
+                m["p1_name"] = p1[0]["first_name"] + ' ' + p1[0]["last_name"]
+                m["p2_name"] = p2[0]["first_name"] + ' ' + p2[0]["last_name"]
+
+            self.view.get_matches_from_tournament(
+                match_list, tournament["name"])
+            match_list.clear()
 
 
 class Tournament_controller:

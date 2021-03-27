@@ -172,24 +172,22 @@ class Reports_views:
                 f'     {num} - Name: {tournament["name"]} - Place: {tournament["place"]} - Date: {tournament["start_date"]} > {tournament["end_date"]}. Description: {tournament["description"]} - Time control: {tournament["time_control"]}.')
         print('------------------------------------\n')
 
-    def choose_tournament_view(self, tournaments):
-        print('\nPlease choose a tournament from the list below: ')
-        print('------------------------------------\n')
-        for num, tournament in enumerate(tournaments, start=1):
-            print(
-                f'     {num} - Name: {tournament["name"]} - Place: {tournament["place"]} - Date: {tournament["start_date"]} > {tournament["end_date"]}.')
-        choice = input('>>> ')
-        print('------------------------------------\n')
-
-        return choice
-
-    def get_players_from_tournament(players):
+    def get_rounds_from_tournament(self, rounds, tournament_name):
         print(
-            f'\nHere is the list of all the players who played in this tournament: ')
+            f'\nHere is the list of all the rounds in the tournament : {tournament_name}')
         print('------------------------------------\n')
-        for num, player in enumerate(players, start=1):
+        for num, my_round in enumerate(rounds, start=1):
             print(
-                f'     {num} - {player["sex"]} - {player["first_name"]} {player["last_name"]} ({player["ranking"]}), born on {player["birthdate"]} - {player["points"]}pts')
+                f'     Round n°{num} - "{my_round["name"]}" - started at: {my_round["start_datetime"]}, ended at : {my_round["end_datetime"]}')
+        print('------------------------------------\n')
+
+    def get_matches_from_tournament(self, matches, tournament_name):
+        print(
+            f'\nHere is the list of all the matches in the tournament : {tournament_name}')
+        print('------------------------------------\n')
+        for num, match in enumerate(matches, start=1):
+            print(
+                f'     {num} - {match["p1_name"]} ({match["player1_score"]}) VS {match["p2_name"]} ({match["player2_score"]})')
         print('------------------------------------\n')
 
 
