@@ -131,8 +131,9 @@ class Matches_views:
         for num, match in enumerate(matches, start=1):
             if match.has_results:
                 print(
-                    f'     {num} - {match} - \u001b[33m Result: {match.player1_score}pts
-                     - {match.player2_score}\pts\033[0m')
+                    f'     {num} - {match} - \u001b[33m Result: {match.player1_score}pts'
+                    f'- {match.player2_score}pts\033[0m'
+                )
             else:
                 print(
                     f'     {num} - {match}')
@@ -148,76 +149,55 @@ class Matches_views:
         return choice
 
     def set_match_result_view(self, match):
-        print(
-            'What is the result of this match: \n')
-        print(
-            '------------------------------------\n')
-        print(
-            f'        1 - ✅ {match.player1} is the winner.')
-        print(
-            f'        2 - ✅ {match.player2} is the winner.')
-        print(
-            f'        3 - There is no winner...')
-        choice = input(
-            '>>> ')
-        print(
-            '------------------------------------\n')
+        print('What is the result of this match: \n')
+        print('------------------------------------\n')
+        print(f'        1 - ✅ {match.player1} is the winner.')
+        print(f'        2 - ✅ {match.player2} is the winner.')
+        print('        3 - There is no winner...')
+        choice = input('>>> ')
+        print('------------------------------------\n')
 
         return choice
 
 
 class Reports_views:
     def choose_report_view(self):
-        print(
-            '\n📊 Choose a report to display: ')
-        print(
-            '------------------------------------\n')
-        print(
-            f'        1 - Display all players from all of the tournaments played.')
-        print(
-            f'        2 - Display all players by tournament.')
-        print(
-            f'        3 - Display all the tournaments.')
-        print(
-            f'        4 - Display all the rounds by tournament.')
-        print(
-            f'        5 - Display all the matches by tournament.')
-        choice = input(
-            '>>> ')
-        print(
-            '------------------------------------\n')
+        print('\n📊 Choose a report to display: ')
+        print('------------------------------------\n')
+        print('        1 - Display all players from all of the tournaments played.')
+        print('        2 - Display all players by tournament.')
+        print('        3 - Display all the tournaments.')
+        print('        4 - Display all the rounds by tournament.')
+        print('        5 - Display all the matches by tournament.')
+        choice = input('>>> ')
+        print('------------------------------------\n')
 
         return choice
 
     def get_all_players_view(self, players, tournament_name):
-        sorted_players = []
+
         print(
-            f'Tournament name: {str(tournament_name)} - Type "A" to sort them by Alphabetical order or
-            "R" to sort them by their ranking: ')
-        choice = input(
-            '>>> ')
+            f'Tournament name: {str(tournament_name)} - Type "A" to sort them by Alphabetical order or'
+            f'"R" to sort them by their ranking: ')
+        choice = input('>>> ')
         if tournament_name is not None:
-            print(
-                f'\nHere is the list of all the players from {tournament_name}: ')
+            print(f'\nHere is the list of all the players from {tournament_name}: ')
         else:
-            print(
-                '\nHere is the list of all the players: ')
-        print(
-            '------------------------------------\n')
+            print('\nHere is the list of all the players: ')
+        print('------------------------------------\n')
         if choice in ('a', 'A'):
             sorted_player = sorted(
                 players,  key=lambda player: player["first_name"])
 
         elif choice in ('r', 'R'):
-            sorted_player=sorted(
+            sorted_player = sorted(
                 players,  key=lambda player: player["ranking"])
 
         for num, player in enumerate(sorted_player, start=1):
             print(
-                f'     {num} - {player["sex"]} - {player["first_name"]} {player["last_name"]}({player["ranking"]}),
-                born on {player["birthdate"]}')
-        print(
-            '------------------------------------\n')
+                f'     {num} - {player["sex"]} - {player["first_name"]} {player["last_name"]}({player["ranking"]}),'
+                f'born on {player["birthdate"]}')
+        print('------------------------------------\n')
 
     def get_all_tournaments_view(self, tournaments):
         print(
@@ -226,9 +206,10 @@ class Reports_views:
             '------------------------------------\n')
         for num, tournament in enumerate(tournaments, start=1):
             print(
-                f'     {num} - Name: {tournament["name"]} - Place: {tournament["place"]} -
-                Date: {tournament["start_date"]} > {tournament["end_date"]}. Description: {tournament["description"]} -
-                Time control: {tournament["time_control"]}.')
+                f'     {num} - Name: {tournament["name"]} - Place: {tournament["place"]} -'
+                f'Date: {tournament["start_date"]} > {tournament["end_date"]}. Description: '
+                f'{tournament["description"]} - Time control: {tournament["time_control"]}.'
+            )
         print(
             '------------------------------------\n')
 
@@ -239,8 +220,8 @@ class Reports_views:
             '------------------------------------\n')
         for num, my_round in enumerate(rounds, start=1):
             print(
-                f'     Round n°{num} - "{my_round["name"]}" - started at: {my_round["start_datetime"]},
-                ended at: {my_round["end_datetime"]}')
+                f'     Round n°{num} - "{my_round["name"]}" - started at: {my_round["start_datetime"]}, '
+                f'ended at: {my_round["end_datetime"]}')
         print(
             '------------------------------------\n')
 
@@ -251,8 +232,8 @@ class Reports_views:
             '------------------------------------\n')
         for num, match in enumerate(matches, start=1):
             print(
-                f'     {num} - {match["p1_name"]}({match["player1_score"]}) VS
-                {match["p2_name"]}({match["player2_score"]})')
+                f'     {num} - {match["p1_name"]}({match["player1_score"]}) VS '
+                f'{match["p2_name"]}({match["player2_score"]})')
         print(
             '------------------------------------\n')
 
@@ -265,8 +246,8 @@ class Views:
             '------------------------------------')
         if nb_tournament >= 1:
             print(
-                f'     1 -\u001b[33m Create a new tournament\033[0m - -- Tournament: {tournament_instance.name},
-                 {tournament_instance.place}')
+                f'     1 -\u001b[33m Create a new tournament\033[0m - -- Tournament: {tournament_instance.name}, '
+                f'{tournament_instance.place}')
         else:
             print(
                 '     1 - \u001b[33mCreate a new tournament\033[0m')
@@ -292,7 +273,7 @@ class Views:
             '------------------------------------')
         print(
             'Please input a number between 1 & 5 to choose what to do:')
-        choice=input(
+        choice = input(
             '>>> ')
 
         return choice

@@ -8,3 +8,5 @@ players_table.truncate()  # clear the table first
 
 tournaments_table = database.table('tournaments')
 tournaments_table.truncate()  # clear the table first
+
+query = Query()

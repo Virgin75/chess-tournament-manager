@@ -1,6 +1,4 @@
-from views import *
-from controllers import *
-from models import *
+import controllers
 
-menu = Main_menu_controller()
+menu = controllers.Main_menu_controller()
 menu.run()
