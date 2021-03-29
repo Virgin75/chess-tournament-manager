@@ -49,8 +49,11 @@ class Tournament:
 
 
 class Player:
-    def __init__(self, first_name: str, last_name: str, birthdate: str, sex: str, ranking: int):
-        self.id = id(self)
+    def __init__(self, first_name: str, last_name: str, birthdate: str, sex: str, ranking: int, **kwargs):
+        if kwargs:
+            self.id = int(kwargs['id'])
+        else:
+            self.id = id(self)
         self.first_name = first_name
         self.last_name = last_name
         self.birthdate = birthdate

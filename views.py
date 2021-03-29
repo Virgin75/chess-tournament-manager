@@ -238,6 +238,20 @@ class Reports_views:
             '------------------------------------\n')
 
 
+class Import_views:
+    def import_data(self, json_files):
+        print('\n💾 Please make sure your .json file to import is located in '
+              'the current working directory. \n')
+        print('Please note that the import will erase the current db.json file.')
+        print('Select a JSON file to import...\n')
+        for num, file in enumerate(json_files, start=1):
+            print(f'     {num} - {file} ')
+        print('------------------------------------')
+        choice = input('>>> ')
+
+        return choice
+
+
 class Views:
     def main_menu_view(self, nb_players, nb_tournament, current_round, tournament_instance):
         print(

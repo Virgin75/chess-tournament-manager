@@ -2,6 +2,7 @@ import models
 import views
 import db
 import re
+import os
 
 
 class Main_menu_controller:
@@ -155,7 +156,33 @@ class Main_menu_controller:
         grmc.run()
 
     def import_data(self):
-        pass
+        idmc = Import_data_menu_controller()
+        players, tournaments = idmc.run()
+        for player in players:
+            p = models.Player(player["first_name"], player["last_name"], player["birthdate"],
+                              player["sex"], player["ranking"], id=player["id"])
+            p.save_to_db()
+
+
+class Import_data_menu_controller:
+    def __init__(self):
+        self.json_files = [file for file in os.listdir('.') if file.endswith('.json')]
+        self.view = views.Import_views()
+        self.choices = {}
+        for num, file in enumerate(self.json_files, start=1):
+            self.choices[str(num)] = (self.import_file, file)
+
+    def run(self):
+        choice = self.view.import_data(self.json_files)
+        action = self.choices.get(choice)
+        if action:
+            return action[0](action[1])
+        else:
+            print(f'{choice} is not a valid choice.')
+
+    def import_file(self, file):
+        players, tournaments = db.import_data_from_json(file)
+        return players.all(), tournaments.all()
 
 
 class Edit_player_menu_controller:

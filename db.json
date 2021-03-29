@@ -1,105 +1,89 @@
 {
     "players": {
         "1": {
-            "id": 140084592969424,
+            "id": 140176229455568,
             "first_name": "Pedrito",
             "last_name": "player_last_name",
             "birthdate": "11/11/1111",
             "sex": "m",
-            "ranking": 1,
+            "ranking": 333,
             "points": 0,
-            "has_played_with": [
-                140084592971392
-            ]
+            "has_played_with": []
         },
         "2": {
-            "id": 140084592969568,
+            "id": 140176229455712,
             "first_name": "Paolo",
             "last_name": "player_last_name",
             "birthdate": "11/11/1111",
             "sex": "m",
             "ranking": 233,
             "points": 0,
-            "has_played_with": [
-                140084592970768
-            ]
+            "has_played_with": []
         },
         "3": {
-            "id": 140084592969616,
+            "id": 140176229455760,
             "first_name": "Poberta",
             "last_name": "player_last_name",
             "birthdate": "11/11/1111",
             "sex": "m",
             "ranking": 1303,
             "points": 0,
-            "has_played_with": [
-                140084592970480
-            ]
+            "has_played_with": []
         },
         "4": {
-            "id": 140084592970480,
+            "id": 140176229456768,
             "first_name": "Flabu",
             "last_name": "player_last_name",
             "birthdate": "11/11/1111",
             "sex": "m",
             "ranking": 23,
             "points": 0,
-            "has_played_with": [
-                140084592969616
-            ]
+            "has_played_with": []
         },
         "5": {
-            "id": 140084592970768,
+            "id": 140176229456912,
             "first_name": "Kaku",
             "last_name": "player_last_name",
             "birthdate": "11/11/1111",
             "sex": "m",
             "ranking": 3,
             "points": 0,
-            "has_played_with": [
-                140084592969568
-            ]
+            "has_played_with": []
         },
         "6": {
-            "id": 140084592970960,
+            "id": 140176229455808,
             "first_name": "Toto",
             "last_name": "player_last_name",
             "birthdate": "11/11/1111",
             "sex": "m",
             "ranking": 812,
             "points": 0,
-            "has_played_with": [
-                140084592971200
-            ]
+            "has_played_with": []
         },
         "7": {
-            "id": 140084592971200,
+            "id": 140176229457296,
             "first_name": "Pipi",
             "last_name": "player_last_name",
             "birthdate": "11/11/1111",
             "sex": "m",
             "ranking": 13,
             "points": 0,
-            "has_played_with": [
-                140084592970960
-            ]
+            "has_played_with": []
         },
         "8": {
-            "id": 140084592971392,
+            "id": 140176229457632,
             "first_name": "Popo",
             "last_name": "player_last_name",
             "birthdate": "11/11/1111",
             "sex": "m",
             "ranking": 120,
             "points": 0,
-            "has_played_with": [
-                140084592969424
-            ]
+            "has_played_with": []
         }
     },
     "tournaments": {
         "1": {
-            "id": 140084592971680,
+            "id": 140176229457824,
             "name": "fdfd",
             "place": "Paris",
             "start_date": "11/11/1111",
@@ -107,53 +91,16 @@
             "description": "desc",
             "time_control": "blitz",
             "nb_rounds": 4,
-            "rounds": [
-                {
-                    "name": "R1",
-                    "tournament_id": 140084592971680,
-                    "start_datetime": "29/03/2021 21:24:36",
-                    "end_datetime": "29/03/2021 21:24:41",
-                    "matches_list": [
-                        {
-                            "player1_id": 140084592969616,
-                            "player2_id": 140084592970480,
-                            "player1_score": 0,
-                            "player2_score": 1,
-                            "has_results": true
-                        },
-                        {
-                            "player1_id": 140084592970960,
-                            "player2_id": 140084592971200,
-                            "player1_score": 0,
-                            "player2_score": 1,
-                            "has_results": true
-                        },
-                        {
-                            "player1_id": 140084592969568,
-                            "player2_id": 140084592970768,
-                            "player1_score": 0.5,
-                            "player2_score": 0.5,
-                            "has_results": true
-                        },
-                        {
-                            "player1_id": 140084592971392,
-                            "player2_id": 140084592969424,
-                            "player1_score": 0.5,
-                            "player2_score": 0.5,
-                            "has_results": true
-                        }
-                    ]
-                }
-            ],
+            "rounds": [],
             "players": [
-                140084592969424,
-                140084592969568,
-                140084592969616,
-                140084592970480,
-                140084592970768,
-                140084592970960,
-                140084592971200,
-                140084592971392
+                140176229455568,
+                140176229455712,
+                140176229455760,
+                140176229456768,
+                140176229456912,
+                140176229455808,
+                140176229457296,
+                140176229457632
             ]
         }
     }
