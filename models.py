@@ -1,6 +1,6 @@
 import operator
 from datetime import datetime
-from db import *
+import db
 
 
 class Tournament:
@@ -17,17 +17,17 @@ class Tournament:
         self.players = []  # list of player IDs
 
     def save_to_db(self):
-        tournaments_table.insert(self.__dict__)
+        db.tournaments_table.insert(self.__dict__)
 
     def update_players_list(self, player_to_add):
         self.players.append(player_to_add.id)
-        tq = Query()
-        tournaments_table.update(
+        tq = db.Query()
+        db.tournaments_table.update(
             {'players': self.players}, tq.name == self.name)
 
     def update_rounds_list(self, round_to_add):
         self.rounds.append(round_to_add)
-        tq = Query()
+        tq = db.Query()
         serialized_rounds_list = []
         for ronde in self.rounds:
             serialized_matches_list = []
@@ -44,7 +44,7 @@ class Tournament:
                 "matches_list": serialized_matches_list
             }
             serialized_rounds_list.append(r)
-        tournaments_table.update(
+        db.tournaments_table.update(
             {'rounds': serialized_rounds_list}, tq.name == self.name)
 
 
@@ -61,18 +61,18 @@ class Player:
 
     def update_ranking(self, new_ranking):
         self.ranking = int(new_ranking)
-        pq = Query()
-        players_table.update({'ranking': int(new_ranking)}, pq.id ==
-                             self.id)
+        pq = db.Query()
+        db.players_table.update({'ranking': int(new_ranking)}, pq.id ==
+                                self.id)
 
     def update_has_played_with(self, add_player):
         self.has_played_with.append(add_player)
-        pq = Query()
-        players_table.update(
+        pq = db.Query()
+        db.players_table.update(
             {'has_played_with': self.has_played_with}, pq.id == self.id)
 
     def save_to_db(self):
-        players_table.insert(self.__dict__)
+        db.players_table.insert(self.__dict__)
 
     def __str__(self):
         return f'{self.first_name} ({self.ranking})'
