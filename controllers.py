@@ -1,11 +1,12 @@
-from models import *
-from views import *
-from db import *
+import models
+import views
+import db
+import re
 
 
 class Main_menu_controller:
     def __init__(self):
-        self.view = Views()
+        self.view = views.Views()
         self.choices = {
             "1": self.create_tournament,
             "2": self.add_player,
@@ -22,22 +23,22 @@ class Main_menu_controller:
         self.round_instances = []
 
         ''' delete after this line - dummy data'''
-        p1 = Player(*['Pedrito', 'player_last_name',
-                      '11/11/1111', 'm', 333])
-        p2 = Player(*['Paolo', 'player_last_name',
-                      '11/11/1111', 'm', 233])
-        p3 = Player(*['Poberta', 'player_last_name',
-                      '11/11/1111', 'm', 1303])
-        p4 = Player(*['Flabu', 'player_last_name',
-                      '11/11/1111', 'm', 23])
-        p5 = Player(*['Kaku', 'player_last_name',
-                      '11/11/1111', 'm', 3])
-        p6 = Player(*['Toto', 'player_last_name',
-                      '11/11/1111', 'm', 812])
-        p7 = Player(*['Pipi', 'player_last_name',
-                      '11/11/1111', 'm', 13])
-        p8 = Player(*['Popo', 'player_last_name',
-                      '11/11/1111', 'm', 120])
+        p1 = models.Player(*['Pedrito', 'player_last_name',
+                             '11/11/1111', 'm', 333])
+        p2 = models.Player(*['Paolo', 'player_last_name',
+                             '11/11/1111', 'm', 233])
+        p3 = models.Player(*['Poberta', 'player_last_name',
+                             '11/11/1111', 'm', 1303])
+        p4 = models.Player(*['Flabu', 'player_last_name',
+                             '11/11/1111', 'm', 23])
+        p5 = models.Player(*['Kaku', 'player_last_name',
+                             '11/11/1111', 'm', 3])
+        p6 = models.Player(*['Toto', 'player_last_name',
+                             '11/11/1111', 'm', 812])
+        p7 = models.Player(*['Pipi', 'player_last_name',
+                             '11/11/1111', 'm', 13])
+        p8 = models.Player(*['Popo', 'player_last_name',
+                             '11/11/1111', 'm', 120])
         p1.save_to_db()
         p2.save_to_db()
         p3.save_to_db()
@@ -50,7 +51,7 @@ class Main_menu_controller:
         self.player_instances = [p1, p2, p3, p4, p5, p6, p7, p8]
         self.players_created = 8
         self.tournament_created = 1
-        self.tournament_instance = Tournament(
+        self.tournament_instance = models.Tournament(
             'fdfd', 'Paris', '11/11/1111', '11/11/1111', 'desc', 'blitz')
         self.tournament_instance.save_to_db()
         self.tournament_instance.update_players_list(p1)
@@ -81,34 +82,35 @@ class Main_menu_controller:
                 print(f'{go_to} is not a valid choice')
 
     def create_tournament(self):
+        view = views.Tournament_views()
         if self.tournament_created == 0:
-            tournament_data = Tournament_views().create_tournament_view()
+            tournament_data = view.create_tournament_view()
             tc = Tournament_controller(tournament_data)
             if tc.is_data_valid():
-                tournament = Tournament(*tournament_data)
-                Tournament_views().success_message_tournament(tournament.name)
+                tournament = models.Tournament(*tournament_data)
+                views.Tournament_views().success_message_tournament(tournament.name)
                 self.tournament_created += 1
                 self.tournament_instance = tournament
                 tournament.save_to_db()
         else:
             '''A tournament has already been created'''
-            Tournament_views().already_created_view()
+            view.already_created_view()
 
     def add_player(self):
+        view = views.Players_views()
         if self.players_created <= 7:
-            player_data = Players_views().create_player_view(self.players_created + 1)
+            player_data = view.create_player_view(self.players_created + 1)
             pc = Player_controller(player_data)
             if pc.is_data_valid():
-                player = Player(*player_data)
-                Players_views().success_message_player(
-                    player.first_name, player.last_name)
+                player = models.Player(*player_data)
+                view.success_message_player(player.first_name, player.last_name)
                 self.players_created += 1
                 self.player_instances.append(player)
                 player.save_to_db()
                 self.tournament_instance.update_players_list(player)
         else:
             '''More than 8 player have already been created'''
-            Players_views().too_many_players_view()
+            view.too_many_players_view()
 
     def edit_player(self):
         edit_player_controller = Edit_player_menu_controller(
@@ -116,16 +118,17 @@ class Main_menu_controller:
         edit_player_controller.run()
 
     def start_round(self):
+        view = views.Rounds_views()
         # The round cannot start if one of the 3 conditions below is met
         if self.players_created < 8:
-            return Players_views().not_enough_players_view()
+            return view.not_enough_players_view()
         if self.tournament_created == 0:
-            return Tournament_views().no_tournament_created_view()
+            return view.no_tournament_created_view()
         if self.current_round == 4:
-            return Rounds_views().no_more_round_view()
+            return view.no_more_round_view()
 
-        round_name = Rounds_views().start_round_view(self.current_round)
-        my_round = Round(round_name, self.tournament_instance.id)
+        round_name = view.start_round_view(self.current_round)
+        my_round = models.Round(round_name, self.tournament_instance.id)
         self.round_instances.append(my_round)
 
         # Generate paires first round
@@ -137,7 +140,7 @@ class Main_menu_controller:
             my_round.generer_paires_next_rounds(self.player_instances)
 
         match_list = my_round.match_instances
-        Rounds_views().display_matches_view(match_list)
+        view.display_matches_view(match_list)
 
         # Set the round results
         rc = Set_matches_results_menu_controller(match_list)
@@ -157,14 +160,14 @@ class Main_menu_controller:
 
 class Edit_player_menu_controller:
     def __init__(self, players):
-        self.view = Views()
+        self.view = views.Players_views()
         self.players = players
         self.choices = {}
         for num, player in enumerate(self.players, start=1):
             self.choices[str(num)] = (self.edit_player, player)
 
     def run(self):
-        choice = Players_views().edit_players_view(self.players)
+        choice = self.view.edit_players_view(self.players)
         action = self.choices.get(choice)
         if action:
             action[0](action[1])
@@ -172,7 +175,7 @@ class Edit_player_menu_controller:
             print(f'{choice} is not a valid choice.')
 
     def edit_player(self, player):
-        new_ranking = Players_views().edit_player_view(player)
+        new_ranking = self.view.edit_player_view(player)
         pc = Player_controller(
             [player.first_name, player.last_name, player.birthdate,
              player.sex, new_ranking])
@@ -182,7 +185,7 @@ class Edit_player_menu_controller:
 
 class Set_matches_results_menu_controller:
     def __init__(self, matches):
-        self.view = Views()
+        self.view = views.Matches_views()
         self.matches = matches
         self.matches_instances = []
         self.results_set = 0
@@ -192,7 +195,7 @@ class Set_matches_results_menu_controller:
 
     def run(self):
         while self.results_set < 4:
-            choice = Matches_views().set_matches_result_view(self.matches)
+            choice = self.view.set_matches_result_view(self.matches)
             action = self.choices.get(choice)
             if action:
                 action[0](action[1])
@@ -210,7 +213,7 @@ class Set_matches_results_menu_controller:
 
 class Set_match_result_menu_controller:
     def __init__(self, match):
-        self.view = Views()
+        self.view = views.Matches_views()
         self.match = match
         self.choices = {
             "1": (self.set_winner, match.player1),
@@ -219,7 +222,7 @@ class Set_match_result_menu_controller:
         }
 
     def run(self):
-        choice = Matches_views().set_match_result_view(self.match)
+        choice = self.view.set_match_result_view(self.match)
         action = self.choices.get(choice)
         if action:
             return action[0](action[1])
@@ -234,35 +237,10 @@ class Set_match_result_menu_controller:
         return self.match.set_results(is_draw=True, winner=None)
 
 
-class Edit_player_menu_controller:
-    def __init__(self, players):
-        self.players = players
-        self.choices = {}
-        for num, player in enumerate(self.players, start=1):
-            self.choices[str(num)] = (self.edit_player, player)
-
-    def run(self):
-        choice = Players_views().edit_players_view(self.players)
-        action = self.choices.get(choice)
-        if action:
-            action[0](action[1])
-        else:
-            print(f'{choice} is not a valid choice.')
-
-    def edit_player(self, player):
-        new_ranking = Players_views().edit_player_view(player)
-        pc = Player_controller(
-            [player.first_name, player.last_name, player.birthdate,
-             player.sex, new_ranking])
-        if pc.is_data_valid():
-            nr = int(new_ranking)
-            player.update_ranking(nr)
-
-
 class Generate_reports_menu_controller:
     def __init__(self):
-        self.view = Reports_views()
-        self.data = database
+        self.view = views.Reports_views()
+        self.data = db.database
         self.choices = {
             "1": self.get_all_players,
             "2": self.get_players_from_tournament,
@@ -315,10 +293,10 @@ class Generate_reports_menu_controller:
                     match_list.append(match)
 
             for m in match_list:
-                User = Query()
-                p1 = database.table('players').search(
+                User = db.Query()
+                p1 = db.database.table('players').search(
                     User.id == m["player1_id"])
-                p2 = database.table('players').search(
+                p2 = db.database.table('players').search(
                     User.id == m["player2_id"])
                 m["p1_name"] = p1[0]["first_name"] + ' ' + p1[0]["last_name"]
                 m["p2_name"] = p2[0]["first_name"] + ' ' + p2[0]["last_name"]
@@ -341,12 +319,12 @@ class Tournament_controller:
             # data collected from inputs are valid
             return True
         else:
-            Views().error_view('Format de date non valide.')
+            views.Views().error_view('Format de date non valide.')
 
 
 class Player_controller:
     def __init__(self, player_data):
-        self.model = Player
+        self.model = models.Player
         self.player_data = player_data
 
     def is_data_valid(self):
@@ -359,17 +337,17 @@ class Player_controller:
         if bool(regex_birthdate):
             return True
         else:
-            Views().error_view('Format de date non valide.')
+            views.Views().error_view('Format de date non valide.')
 
     def _check_valid_sex(self):
         if self.player_data[3].upper() == 'M' or self.player_data[3].upper() == 'F':
             return True
         else:
-            Views().error_view('Sexe non valide. Veuillez entrer M ou F.')
+            views.Views().error_view('Sexe non valide. Veuillez entrer M ou F.')
 
     def _check_valid_rank(self):
         if self.player_data[4].isdigit():
             if int(self.player_data[4]) > 0:
                 return True
         else:
-            Views().error_view('Votre classement doit être un entier positif.')
+            views.Views().error_view('Votre classement doit être un entier positif.')
