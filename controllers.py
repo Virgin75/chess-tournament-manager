@@ -89,7 +89,7 @@ class Main_menu_controller:
             tc = Tournament_controller(tournament_data)
             if tc.is_data_valid():
                 tournament = models.Tournament(*tournament_data)
-                views.Tournament_views().success_message_tournament(tournament.name)
+                view.success_message_tournament(tournament.name)
                 self.tournament_created += 1
                 self.tournament_instance = tournament
                 tournament.save_to_db()
@@ -158,10 +158,17 @@ class Main_menu_controller:
     def import_data(self):
         idmc = Import_data_menu_controller()
         players, tournaments = idmc.run()
-        for player in players:
-            p = models.Player(player["first_name"], player["last_name"], player["birthdate"],
-                              player["sex"], player["ranking"], id=player["id"])
-            p.save_to_db()
+
+        self.players_created = len(players)
+        self.tournament_created = len(tournaments)
+        last_tournament = len(tournaments) - self.tournament_created
+        self.tournament_instance = models.Tournament(
+            tournaments[last_tournament]["name"],
+            tournaments[last_tournament]["place"],
+            tournaments[last_tournament]["start_date"],
+            tournaments[last_tournament]["end_date"],
+            tournaments[last_tournament]["description"],
+            tournaments[last_tournament]["time_control"],)
 
 
 class Import_data_menu_controller:

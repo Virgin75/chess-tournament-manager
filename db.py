@@ -11,9 +11,10 @@ tournaments_table.truncate()  # clear the table first
 
 
 def import_data_from_json(file):
-    new_db = TinyDB(file, indent=4, separators=(',', ': '))
-    players = new_db.table('players')
-    tournaments = new_db.table('tournaments')
+    global database
+    database = TinyDB(file, indent=4, separators=(',', ': '))
+    players = database.table('players')
+    tournaments = database.table('tournaments')
 
     return players, tournaments
 
