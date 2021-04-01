@@ -2,6 +2,7 @@ from tinydb import TinyDB
 from tinydb import Query
 
 database = TinyDB('db.json', indent=4, separators=(',', ': '))
+database.default_table_name = 'db.json'
 
 players_table = database.table('players')
 players_table.truncate()  # clear the table first
@@ -13,10 +14,13 @@ tournaments_table.truncate()  # clear the table first
 def import_data_from_json(file):
     global database
     database = TinyDB(file, indent=4, separators=(',', ': '))
-    players = database.table('players')
-    tournaments = database.table('tournaments')
+    global players_table
+    global tournaments_table
+    players_table = database.table('players')
+    tournaments_table = database.table('tournaments')
+    database.default_table_name = file
 
-    return players, tournaments
+    return players_table, tournaments_table
 
 
 query = Query()

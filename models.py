@@ -4,8 +4,12 @@ import db
 
 
 class Tournament:
-    def __init__(self, name: str, place: str, start_date: str, end_date: str, description: str, time_control: str):
-        self.id = id(self)
+    def __init__(self, name: str, place: str, start_date: str, end_date: str, description: str,
+                 time_control: str, **kwargs):
+        if 'id' in kwargs:
+            self.id = int(kwargs['id'])
+        else:
+            self.id = id(self)
         self.name = name
         self.place = place
         self.start_date = start_date
@@ -50,7 +54,7 @@ class Tournament:
 
 class Player:
     def __init__(self, first_name: str, last_name: str, birthdate: str, sex: str, ranking: int, **kwargs):
-        if kwargs:
+        if 'id' in kwargs:
             self.id = int(kwargs['id'])
         else:
             self.id = id(self)
@@ -60,7 +64,10 @@ class Player:
         self.sex = sex
         self.ranking = int(ranking)
         self.points = 0
-        self.has_played_with = []  # list of player IDs
+        if 'has_played_with' in kwargs:
+            self.has_played_with = kwargs['has_played_with']
+        else:
+            self.has_played_with = []  # list of player IDs
 
     def update_ranking(self, new_ranking):
         self.ranking = int(new_ranking)

@@ -75,7 +75,8 @@ class Main_menu_controller:
                 self.current_round = 0
                 self.round_instances = []
             go_to = self.view.main_menu_view(
-                self.players_created, self.tournament_created, self.current_round, self.tournament_instance)
+                self.players_created, self.tournament_created, self.current_round,
+                self.tournament_instance, db.database.name)
             action = self.choices.get(go_to)
             if action:
                 action()
@@ -159,7 +160,6 @@ class Main_menu_controller:
         idmc = Import_data_menu_controller()
         players, tournaments = idmc.run()
 
-        self.players_created = len(players)
         self.tournament_created = len(tournaments)
         last_tournament = len(tournaments) - self.tournament_created
         self.tournament_instance = models.Tournament(
@@ -168,7 +168,28 @@ class Main_menu_controller:
             tournaments[last_tournament]["start_date"],
             tournaments[last_tournament]["end_date"],
             tournaments[last_tournament]["description"],
-            tournaments[last_tournament]["time_control"],)
+            tournaments[last_tournament]["time_control"],
+            id=tournaments[last_tournament]["id"])
+        self.current_round = len(tournaments[last_tournament]["rounds"])
+        for my_round in tournaments[last_tournament]["rounds"]:
+            '''
+            TODO: Ajouter les instances de rounds importés à l'instance tournoi en cours
+            round_inst = Round()
+            self.tournament_instance.rounds.append(round_inst)
+            '''
+
+        self.players_created = len(players)
+        self.player_instances.clear()
+        for player in players:
+            player_inst = models.Player(player["first_name"],
+                                        player["last_name"],
+                                        player["birthdate"],
+                                        player["sex"],
+                                        player["ranking"],
+                                        id=player["id"],
+                                        has_played_with=player["has_played_with"])
+            self.player_instances.append(player_inst)
+            self.tournament_instance.update_players_list(player_inst)
 
 
 class Import_data_menu_controller:

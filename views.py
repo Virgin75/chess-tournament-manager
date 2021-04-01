@@ -242,7 +242,6 @@ class Import_views:
     def import_data(self, json_files):
         print('\n💾 Please make sure your .json file to import is located in '
               'the current working directory. \n')
-        print('Please note that the import will erase the current db.json file.')
         print('Select a JSON file to import...\n')
         for num, file in enumerate(json_files, start=1):
             print(f'     {num} - {file} ')
@@ -253,7 +252,7 @@ class Import_views:
 
 
 class Views:
-    def main_menu_view(self, nb_players, nb_tournament, current_round, tournament_instance):
+    def main_menu_view(self, nb_players, nb_tournament, current_round, tournament_instance, db_name):
         print(
             '🏆 MENU - Chess Tournament Manager')
         print(
@@ -282,11 +281,11 @@ class Views:
         print(
             '     5 - \u001b[33mGenerate reports\033[0m')
         print(
-            '     6 - \u001b[33mImport Data\033[0m')
+            f'     6 - \u001b[33mSwitch database\033[0m --- "{db_name}" file is the active db.')
         print(
             '------------------------------------')
         print(
-            'Please input a number between 1 & 5 to choose what to do:')
+            'Please input a number between 1 & 6 to choose what to do:')
         choice = input(
             '>>> ')
 
