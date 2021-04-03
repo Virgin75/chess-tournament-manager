@@ -30,7 +30,6 @@ class Tournament:
             {'players': self.players}, tq.name == self.name)
 
     def update_rounds_list(self, round_to_add):
-        print(round_to_add.__dict__)
         self.rounds.append(round_to_add)
         tq = db.Query()
         serialized_rounds_list = []
@@ -73,8 +72,12 @@ class Player:
     def update_ranking(self, new_ranking):
         self.ranking = int(new_ranking)
         pq = db.Query()
-        db.players_table.update({'ranking': int(new_ranking)}, pq.id ==
-                                self.id)
+        db.players_table.update({'ranking': int(new_ranking)}, pq.id == self.id)
+
+    def update_points(self, add_points):
+        self.points += add_points
+        pq = db.Query()
+        db.players_table.update({'points': self.points}, pq.id == self.id)
 
     def update_has_played_with(self, add_player):
         self.has_played_with.append(add_player)
@@ -114,6 +117,9 @@ class Match:
         return cls(player1, player2, player1_score=player1_score, player2_score=player2_score, has_results=True)
 
     def set_results(self, is_draw: bool, winner: Player):
+        if self.has_results:
+            return
+
         self.player1_score = 0
         self.player2_score = 0
         self.result = ([self.player1, self.player1_score],
@@ -121,10 +127,14 @@ class Match:
         if is_draw:
             self.player1_score += 0.5
             self.player2_score += 0.5
+            self.player1.update_points(0.5)
+            self.player2.update_points(0.5)
         if winner == self.player1:
             self.player1_score += 1
+            self.player1.update_points(1)
         elif winner == self.player2:
             self.player2_score += 1
+            self.player2.update_points(1)
         self.has_results = True
 
         self.result = ([self.player1, self.player1_score],

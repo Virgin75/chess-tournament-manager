@@ -193,12 +193,12 @@ class Reports_views:
 
             elif choice in ('r', 'R'):
                 sorted_player = sorted(
-                    players,  key=lambda player: player["ranking"])
+                    players,  key=lambda player: player["points"], reverse=True)
 
             for num, player in enumerate(sorted_player, start=1):
                 print(
-                    f'     {num} - {player["sex"]} - {player["first_name"]} {player["last_name"]}({player["ranking"]}),'
-                    f'born on {player["birthdate"]}')
+                    f'   Rank #{num} - {player["first_name"]} {player["last_name"]} ({player["ranking"]})'
+                    f' -  {player["points"]}pts')
             print('------------------------------------\n')
 
     def get_all_tournaments_view(self, tournaments):
@@ -265,7 +265,7 @@ class Import_views:
 class Views:
     def main_menu_view(self, nb_players, nb_tournament, current_round, tournament_instance, db_name):
         print(
-            '\n🏆 MENU - Chess Tournament Manager  ---   Auto-save to db activated.')
+            '\n🏆 MENU - Chess Tournament Manager  ---   ✅ Auto-save to db activated.')
         print(
             '------------------------------------')
         if nb_tournament >= 1:
@@ -301,6 +301,12 @@ class Views:
             '>>> ')
 
         return choice
+
+    def wrong_input_view(self, choice):
+        print(f'\n❌ {choice} is not a valid choice.\n')
+
+    def error_step_view(self):
+        print('\nPlease create a tournament before starting to add players...\n')
 
     def error_view(self, error):
         print(

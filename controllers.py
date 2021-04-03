@@ -23,47 +23,6 @@ class Main_menu_controller:
         self.current_round = 0
         self.round_instances = []
 
-        ''' delete after this line - dummy data'''
-        p1 = models.Player(*['Pedrito', 'player_last_name',
-                             '11/11/1111', 'm', 333])
-        p2 = models.Player(*['Paolo', 'player_last_name',
-                             '11/11/1111', 'm', 233])
-        p3 = models.Player(*['Poberta', 'player_last_name',
-                             '11/11/1111', 'm', 1303])
-        p4 = models.Player(*['Flabu', 'player_last_name',
-                             '11/11/1111', 'm', 23])
-        p5 = models.Player(*['Kaku', 'player_last_name',
-                             '11/11/1111', 'm', 3])
-        p6 = models.Player(*['Toto', 'player_last_name',
-                             '11/11/1111', 'm', 812])
-        p7 = models.Player(*['Pipi', 'player_last_name',
-                             '11/11/1111', 'm', 13])
-        p8 = models.Player(*['Popo', 'player_last_name',
-                             '11/11/1111', 'm', 120])
-        p1.save_to_db()
-        p2.save_to_db()
-        p3.save_to_db()
-        p4.save_to_db()
-        p5.save_to_db()
-        p6.save_to_db()
-        p7.save_to_db()
-        p8.save_to_db()
-
-        self.player_instances = [p1, p2, p3, p4, p5, p6, p7, p8]
-        self.players_created = 8
-        self.tournament_created = 1
-        self.tournament_instance = models.Tournament(
-            'fdfd', 'Paris', '11/11/1111', '11/11/1111', 'desc', 'blitz')
-        self.tournament_instance.save_to_db()
-        self.tournament_instance.update_players_list(p1)
-        self.tournament_instance.update_players_list(p2)
-        self.tournament_instance.update_players_list(p3)
-        self.tournament_instance.update_players_list(p4)
-        self.tournament_instance.update_players_list(p5)
-        self.tournament_instance.update_players_list(p6)
-        self.tournament_instance.update_players_list(p7)
-        self.tournament_instance.update_players_list(p8)
-
     def run(self):
         while True:
             if len(self.round_instances) == 4:
@@ -81,7 +40,7 @@ class Main_menu_controller:
             if action:
                 action()
             else:
-                print(f'{go_to} is not a valid choice')
+                views.Views().wrong_input_view(go_to)
 
     def create_tournament(self):
         view = views.Tournament_views()
@@ -99,6 +58,8 @@ class Main_menu_controller:
             view.already_created_view()
 
     def add_player(self):
+        if self.tournament_instance is None:
+            return views.Views().error_step_view()
         view = views.Players_views()
         if self.players_created <= 7:
             player_data = view.create_player_view(self.players_created + 1)
@@ -249,7 +210,7 @@ class Edit_player_menu_controller:
         if action:
             action[0](action[1])
         else:
-            print(f'{choice} is not a valid choice.')
+            views.Views().wrong_input_view(choice)
 
     def edit_player(self, player):
         new_ranking = self.view.edit_player_view(player)
@@ -277,7 +238,7 @@ class Set_matches_results_menu_controller:
             if action:
                 action[0](action[1])
             else:
-                print(f'{choice} is not a valid choice.')
+                views.Views().wrong_input_view(choice)
                 self.run()
 
     def set_match_result(self, match):
@@ -304,7 +265,7 @@ class Set_match_result_menu_controller:
         if action:
             return action[0](action[1])
         else:
-            print(f'{choice} is not a valid choice.')
+            views.Views().wrong_input_view(choice)
             self.run()
 
     def set_winner(self, player):
@@ -332,7 +293,7 @@ class Generate_reports_menu_controller:
         if action:
             action()
         else:
-            print(f'{choice} is not a valid choice.')
+            views.Views().wrong_input_view(choice)
 
     def get_all_players(self):
         self.view.get_all_players_view(self.data.table('players'), None)
