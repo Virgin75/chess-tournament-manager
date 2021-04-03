@@ -160,6 +160,12 @@ class Main_menu_controller:
         idmc = Import_data_menu_controller()
         players, tournaments = idmc.run()
 
+        def get_player_inst_from_id(id):
+            players_list = self.player_instances
+            result = [player for player in players_list if player.id == id]
+            return result[0]
+
+        # Import basic tournament data
         self.tournament_created = len(tournaments)
         last_tournament = len(tournaments) - self.tournament_created
         self.tournament_instance = models.Tournament(
@@ -170,14 +176,8 @@ class Main_menu_controller:
             tournaments[last_tournament]["description"],
             tournaments[last_tournament]["time_control"],
             id=tournaments[last_tournament]["id"])
-        self.current_round = len(tournaments[last_tournament]["rounds"])
-        for my_round in tournaments[last_tournament]["rounds"]:
-            '''
-            TODO: Ajouter les instances de rounds importés à l'instance tournoi en cours
-            round_inst = Round()
-            self.tournament_instance.rounds.append(round_inst)
-            '''
 
+        # Import players data
         self.players_created = len(players)
         self.player_instances.clear()
         for player in players:
@@ -190,6 +190,25 @@ class Main_menu_controller:
                                         has_played_with=player["has_played_with"])
             self.player_instances.append(player_inst)
             self.tournament_instance.update_players_list(player_inst)
+
+        # Import rounds & matches data
+        self.current_round = len(tournaments[last_tournament]["rounds"])
+        for my_round in tournaments[last_tournament]["rounds"]:
+            round_inst = models.Round(my_round["name"],
+                                      my_round["tournament_id"],
+                                      start_datetime=my_round["start_datetime"],
+                                      end_datetime=my_round["end_datetime"])
+
+            for match in my_round["matches_list"]:
+                p1 = get_player_inst_from_id(match["player1_id"])
+                p2 = get_player_inst_from_id(match["player2_id"])
+                match_inst = models.Match.create_from_imported_data(
+                    p1, p2, match["player1_score"], match["player2_score"])
+
+                round_inst.add_match_to_matches_list(match_inst)
+
+            self.tournament_instance.rounds.append(round_inst)
+            self.round_instances.append(round_inst)
 
 
 class Import_data_menu_controller:

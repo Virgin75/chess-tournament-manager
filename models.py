@@ -30,6 +30,7 @@ class Tournament:
             {'players': self.players}, tq.name == self.name)
 
     def update_rounds_list(self, round_to_add):
+        print(round_to_add.__dict__)
         self.rounds.append(round_to_add)
         tq = db.Query()
         serialized_rounds_list = []
@@ -90,14 +91,27 @@ class Player:
 
 class Match:
 
-    def __init__(self, player1: Player, player2: Player):
+    def __init__(self, player1: Player, player2: Player, **kwargs):
         self.player1 = player1
         self.player2 = player2
-        self.player1_score = 0
-        self.player2_score = 0
-        self.has_results = False
+        if 'player1_score' in kwargs:
+            self.player1_score = kwargs['player1_score']
+        else:
+            self.player1_score = 0
+        if 'player2_score' in kwargs:
+            self.player2_score = kwargs['player2_score']
+        else:
+            self.player2_score = 0
+        if 'has_results' in kwargs:
+            self.has_results = True
+        else:
+            self.has_results = False
         self.result = ([self.player1, self.player1_score],
                        [self.player2, self.player2_score])
+
+    @classmethod
+    def create_from_imported_data(cls, player1, player2, player1_score, player2_score):
+        return cls(player1, player2, player1_score=player1_score, player2_score=player2_score, has_results=True)
 
     def set_results(self, is_draw: bool, winner: Player):
         self.player1_score = 0
@@ -132,11 +146,17 @@ class Match:
 
 
 class Round:
-    def __init__(self, name: str, tournament_id: int):
+    def __init__(self, name: str, tournament_id: int, **kwargs):
         now = datetime.now()
         self.name = name
-        self.start_datetime = now.strftime("%d/%m/%Y %H:%M:%S")
-        self.end_datetime = ''
+        if 'start_datetime' in kwargs:
+            self.start_datetime = kwargs['start_datetime']
+        else:
+            self.start_datetime = now.strftime("%d/%m/%Y %H:%M:%S")
+        if 'end_datetime' in kwargs:
+            self.end_datetime = kwargs['end_datetime']
+        else:
+            self.end_datetime = ''
         self.match_instances = []
         self.tournament_id = tournament_id
 
@@ -246,3 +266,6 @@ class Round:
         paire4.player2.update_has_played_with(paire4.player1.id)
 
         self.match_instances = [paire1, paire2, paire3, paire4]
+
+    def add_match_to_matches_list(self, match_to_add: Match):
+        self.match_instances.append(match_to_add)
