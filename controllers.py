@@ -228,7 +228,7 @@ class Import_data_menu_controller:
         if action:
             return action[0](action[1])
         else:
-            return '', '', False
+            return 'no player', 'no tournament', False
 
     def import_file(self, file):
         players, tournaments = db.import_data_from_json(file)

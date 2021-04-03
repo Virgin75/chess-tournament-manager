@@ -175,67 +175,78 @@ class Reports_views:
         return choice
 
     def get_all_players_view(self, players, tournament_name):
-
-        print(
-            f'Tournament name: {str(tournament_name)} - Type "A" to sort them by Alphabetical order or'
-            f'"R" to sort them by their ranking: ')
-        choice = input('>>> ')
-        if tournament_name is not None:
-            print(f'\nHere is the list of all the players from {tournament_name}: ')
+        if len(players) == 0:
+            print('There is no player to display.\n')
         else:
-            print('\nHere is the list of all the players: ')
-        print('------------------------------------\n')
-        if choice in ('a', 'A'):
-            sorted_player = sorted(
-                players,  key=lambda player: player["first_name"])
-
-        elif choice in ('r', 'R'):
-            sorted_player = sorted(
-                players,  key=lambda player: player["ranking"])
-
-        for num, player in enumerate(sorted_player, start=1):
             print(
-                f'     {num} - {player["sex"]} - {player["first_name"]} {player["last_name"]}({player["ranking"]}),'
-                f'born on {player["birthdate"]}')
-        print('------------------------------------\n')
+                f'Tournament name: {str(tournament_name)} - Type "A" to sort them by Alphabetical order or'
+                f'"R" to sort them by their ranking: ')
+            choice = input('>>> ')
+            if tournament_name is not None:
+                print(f'\nHere is the list of all the players from {tournament_name}: ')
+            else:
+                print('\nHere is the list of all the players: ')
+            print('------------------------------------\n')
+            if choice in ('a', 'A'):
+                sorted_player = sorted(
+                    players,  key=lambda player: player["first_name"])
+
+            elif choice in ('r', 'R'):
+                sorted_player = sorted(
+                    players,  key=lambda player: player["ranking"])
+
+            for num, player in enumerate(sorted_player, start=1):
+                print(
+                    f'     {num} - {player["sex"]} - {player["first_name"]} {player["last_name"]}({player["ranking"]}),'
+                    f'born on {player["birthdate"]}')
+            print('------------------------------------\n')
 
     def get_all_tournaments_view(self, tournaments):
-        print(
-            '\nHere is the list of all the tournaments: ')
-        print(
-            '------------------------------------\n')
-        for num, tournament in enumerate(tournaments, start=1):
+        if len(tournaments) == 0:
+            print('There is no tournament to display.\n')
+        else:
             print(
-                f'     {num} - Name: {tournament["name"]} - Place: {tournament["place"]} -'
-                f'Date: {tournament["start_date"]} > {tournament["end_date"]}. Description: '
-                f'{tournament["description"]} - Time control: {tournament["time_control"]}.'
-            )
-        print(
-            '------------------------------------\n')
+                '\nHere is the list of all the tournaments: ')
+            print(
+                '------------------------------------\n')
+            for num, tournament in enumerate(tournaments, start=1):
+                print(
+                    f'     {num} - Name: {tournament["name"]} - Place: {tournament["place"]} -'
+                    f'Date: {tournament["start_date"]} > {tournament["end_date"]}. Description: '
+                    f'{tournament["description"]} - Time control: {tournament["time_control"]}.'
+                )
+            print(
+                '------------------------------------\n')
 
     def get_rounds_from_tournament(self, rounds, tournament_name):
-        print(
-            f'\nHere is the list of all the rounds in the tournament : {tournament_name}')
-        print(
-            '------------------------------------\n')
-        for num, my_round in enumerate(rounds, start=1):
+        if len(rounds) == 0:
+            print('There is no round to display.\n')
+        else:
             print(
-                f'     Round n°{num} - "{my_round["name"]}" - started at: {my_round["start_datetime"]}, '
-                f'ended at: {my_round["end_datetime"]}')
-        print(
-            '------------------------------------\n')
+                f'\nHere is the list of all the rounds in the tournament : {tournament_name}')
+            print(
+                '------------------------------------\n')
+            for num, my_round in enumerate(rounds, start=1):
+                print(
+                    f'     Round n°{num} - "{my_round["name"]}" - started at: {my_round["start_datetime"]}, '
+                    f'ended at: {my_round["end_datetime"]}')
+            print(
+                '------------------------------------\n')
 
     def get_matches_from_tournament(self, matches, tournament_name):
-        print(
-            f'\nHere is the list of all the matches in the tournament : {tournament_name}')
-        print(
-            '------------------------------------\n')
-        for num, match in enumerate(matches, start=1):
+        if len(matches) == 0:
+            print('There is no match to display.\n')
+        else:
             print(
-                f'     {num} - {match["p1_name"]}({match["player1_score"]}) VS '
-                f'{match["p2_name"]}({match["player2_score"]})')
-        print(
-            '------------------------------------\n')
+                f'\nHere is the list of all the matches in the tournament : {tournament_name}')
+            print(
+                '------------------------------------\n')
+            for num, match in enumerate(matches, start=1):
+                print(
+                    f'     {num} - {match["p1_name"]}({match["player1_score"]}) VS '
+                    f'{match["p2_name"]}({match["player2_score"]})')
+            print(
+                '------------------------------------\n')
 
 
 class Import_views:
