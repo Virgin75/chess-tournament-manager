@@ -254,7 +254,7 @@ class Import_views:
 class Views:
     def main_menu_view(self, nb_players, nb_tournament, current_round, tournament_instance, db_name):
         print(
-            '🏆 MENU - Chess Tournament Manager')
+            '\n🏆 MENU - Chess Tournament Manager  ---   Auto-save to db activated.')
         print(
             '------------------------------------')
         if nb_tournament >= 1:

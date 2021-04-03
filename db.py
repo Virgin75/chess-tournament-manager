@@ -1,8 +1,20 @@
 from tinydb import TinyDB
 from tinydb import Query
+import random
 
-database = TinyDB('db.json', indent=4, separators=(',', ': '))
-database.default_table_name = 'db.json'
+db_name = 'db.json'
+
+try:
+    f = open(db_name)
+    # le fichier db.json existe, alors on en créé un nouveau pour ne pas l'écraser
+    db_name = f'db-{random.randint(1,99999)}.json'
+    f.close()
+except IOError:
+    # Le fichier db.json n'existe pas
+    db_name = 'db.json'
+
+database = TinyDB(db_name, indent=4, separators=(',', ': '))
+database.default_table_name = db_name
 
 players_table = database.table('players')
 players_table.truncate()  # clear the table first

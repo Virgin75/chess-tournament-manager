@@ -158,7 +158,10 @@ class Main_menu_controller:
 
     def import_data(self):
         idmc = Import_data_menu_controller()
-        players, tournaments = idmc.run()
+        players, tournaments, valid_json_file = idmc.run()
+
+        if valid_json_file is False:
+            return
 
         def get_player_inst_from_id(id):
             players_list = self.player_instances
@@ -225,11 +228,11 @@ class Import_data_menu_controller:
         if action:
             return action[0](action[1])
         else:
-            print(f'{choice} is not a valid choice.')
+            return '', '', False
 
     def import_file(self, file):
         players, tournaments = db.import_data_from_json(file)
-        return players.all(), tournaments.all()
+        return players.all(), tournaments.all(), True
 
 
 class Edit_player_menu_controller:
