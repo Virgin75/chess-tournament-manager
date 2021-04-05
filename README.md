@@ -35,3 +35,9 @@ Voici une courte description des fonctionnalités de chacunes des fonctionnalit�
   La base de données doit être un fichier au format `.json`. Celle-ci est générée via TinyDB.
   À noter, chaque action effectuée (ajout d'un joueur, lancement d'un round, ajout des résultats d'un match...) génére une sauvegarde automatique de la base de données.
   Afin d'utiliser une autre base de données, il faut à tout prix que le fichier `.json` soit placé dans le même répertoire que l'actuelle base de données.
+
+## Comment générer un nouveau rapport flake8-html ?
+
+```bash
+flake8 --format=html --htmldir=flake-report
+```
