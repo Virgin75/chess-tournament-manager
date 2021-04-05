@@ -5,6 +5,7 @@ import re
 import os
 
 
+# Controlleur du menu principal
 class Main_menu_controller:
     def __init__(self):
         self.view = views.Views()
@@ -25,8 +26,9 @@ class Main_menu_controller:
 
     def run(self):
         while True:
+            '''On vérifie si les 4 rounds du tournoi on été joués. Si oui, on reset certaines valeurs
+                afin de pouvoir créer un tournoi suivant'''
             if len(self.round_instances) == 4:
-                '''When all the rounds have been played, a new tournament can be created'''
                 self.players_created = 0
                 self.player_instances = []
                 self.tournament_created = 0
@@ -72,7 +74,7 @@ class Main_menu_controller:
                 player.save_to_db()
                 self.tournament_instance.update_players_list(player)
         else:
-            '''More than 8 player have already been created'''
+            '''More than 8 players have already been created'''
             view.too_many_players_view()
 
     def edit_player(self):
@@ -102,6 +104,7 @@ class Main_menu_controller:
         else:
             my_round.generer_paires_next_rounds(self.player_instances)
 
+        # Display matches list
         match_list = my_round.match_instances
         view.display_matches_view(match_list)
 
@@ -174,6 +177,8 @@ class Main_menu_controller:
             self.tournament_instance.rounds.append(round_inst)
             self.round_instances.append(round_inst)
 
+# Controlleur du sous-menu permettant de choisir le fichier .json de la db a importer
+
 
 class Import_data_menu_controller:
     def __init__(self):
@@ -194,6 +199,8 @@ class Import_data_menu_controller:
     def import_file(self, file):
         players, tournaments = db.import_data_from_json(file)
         return players.all(), tournaments.all(), True
+
+# Controlleur du sous-menu permettant de chosir le joueur sur lequel on veut modifier le classement
 
 
 class Edit_player_menu_controller:
@@ -219,6 +226,8 @@ class Edit_player_menu_controller:
              player.sex, new_ranking])
         if pc.is_data_valid():
             player.update_ranking(int(new_ranking))
+
+# Controlleur du sous-menu permettant de choisir le match sur lequel on souhaite définir les résultats
 
 
 class Set_matches_results_menu_controller:
@@ -248,6 +257,8 @@ class Set_matches_results_menu_controller:
         my_set = set(self.matches_instances)
         self.results_set = len(my_set)
 
+# Controlleur du sous-menu permettant d'ajouter les résultats d'un match
+
 
 class Set_match_result_menu_controller:
     def __init__(self, match):
@@ -273,6 +284,8 @@ class Set_match_result_menu_controller:
 
     def set_draw(self, _):
         return self.match.set_results(is_draw=True, winner=None)
+
+# Controlleur du sous-menu permettant de choisir le rapport que l'on souhaite consulter
 
 
 class Generate_reports_menu_controller:
@@ -343,6 +356,8 @@ class Generate_reports_menu_controller:
                 match_list, tournament["name"])
             match_list.clear()
 
+# Controlleur permettant que les données entrées par l'utilisateur sont conforme à ce qui est attendu en db
+
 
 class Tournament_controller:
     def __init__(self, tournament_data):
@@ -358,6 +373,8 @@ class Tournament_controller:
             return True
         else:
             views.Views().error_view('Format de date non valide.')
+
+# Controlleur permettant que les données entrées par l'utilisateur sont conforme à ce qui est attendu en db
 
 
 class Player_controller:

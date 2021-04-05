@@ -166,7 +166,7 @@ class Round:
         if 'end_datetime' in kwargs:
             self.end_datetime = kwargs['end_datetime']
         else:
-            self.end_datetime = ''
+            self.end_datetime = ''  # pas encore de date de fin lors de l'instanciation
         self.match_instances = []
         self.tournament_id = tournament_id
 
@@ -175,6 +175,7 @@ class Round:
         self.end_datetime = now.strftime("%d/%m/%Y %H:%M:%S")
 
     def generer_paires_round1(self, players: list):
+        # On trie les joueurs par classement puis on les sépare en 2 groupes
         sorted_players = sorted(players,  key=lambda player: player.ranking)
         group_inf = sorted_players[:len(sorted_players)//2]
         group_sup = sorted_players[len(sorted_players)//2:]
@@ -200,7 +201,7 @@ class Round:
         sorted_players = sorted(
             players, key=operator.attrgetter('points', 'ranking'))
 
-        # Liste de joueurs disponibles (pas encore de paires)
+        # Liste de joueurs disponibles (pas encore de paire trouvée)
         available_players = sorted_players
 
         # On génère la paire 1
@@ -276,6 +277,9 @@ class Round:
         paire4.player2.update_has_played_with(paire4.player1.id)
 
         self.match_instances = [paire1, paire2, paire3, paire4]
+
+    '''Fonction utilisée lorsque que l'on change de db 
+        afin de remettre à jour la liste des matches du round'''
 
     def add_match_to_matches_list(self, match_to_add: Match):
         self.match_instances.append(match_to_add)
