@@ -197,7 +197,7 @@ class Reports_views:
 
             for num, player in enumerate(sorted_player, start=1):
                 print(
-                    f'   Rank #{num} - {player["first_name"]} {player["last_name"]} ({player["ranking"]})'
+                    f'   #{num} - {player["first_name"]} {player["last_name"]} ({player["ranking"]})'
                     f' -  {player["points"]}pts')
             print('------------------------------------\n')
 

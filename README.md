@@ -10,7 +10,7 @@ Chess tournament manager est un script Python permettant de créer un gérer un 
 ```bash
 python3 -m venv env
 source env/bin/activate
-pip3 install requirements.txt
+pip3 install -r requirements.txt
 ```
 
 # Utilisation
