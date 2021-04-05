@@ -129,3 +129,6 @@ dmypy.json
 .pyre/
 
 *.json
+db.json
+.vscode/
+.vscode

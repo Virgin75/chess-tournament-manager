@@ -1,6 +1,6 @@
 # Description
 
-Chess tournament manager est un script Python permettant de créer un gérer un tournoi d'échecs. Ajouter vos joueurs, les matches sont générés automatiquement. Vous n'avez plus qu'à rentrer les résultats et suivre le classement.
+Chess tournament manager est un script Python permettant de créer un gérer un tournoi d'échecs. Ajoutez vos joueurs, les matches sont générés automatiquement. Vous n'avez plus qu'à rentrer les résultats et suivre le classement.
 
 # Installation
 
@@ -32,6 +32,6 @@ Voici une courte description des fonctionnalités de chacunes des fonctionnalit�
   L'utilisateur devra ensuite indiqué le vainqueur de chaque match. Les points sont attribués de la manière suivante : **1 point** pour le vainqueur, **0 point** pour le perdant, et **0.5 point** en cas de match nul.
 - **Generate reports** : Permet de générer divers rapport sur le.s tournoi.s joué.s tels que : liste des joueurs, classement général, liste des matchs, liste des rounds...
 - **Switch database** : Permet de changer de base de données en important une nouvelle. Le nom de la base de données en cours d'utilisation est précisée en fin de ligne.
-  La base de données doit être un fichier au format `.json`. Celle-ci est généré via TinyDB.
+  La base de données doit être un fichier au format `.json`. Celle-ci est générée via TinyDB.
   À noter, chaque action effectuée (ajout d'un joueur, lancement d'un round, ajout des résultats d'un match...) génére une sauvegarde automatique de la base de données.
-  Afin de d'utiliser une autre base de données, il faut à tout prix que le fichier `.json` soit placé dans le même répertoire que l'actuelle base de données.
+  Afin d'utiliser une autre base de données, il faut à tout prix que le fichier `.json` soit placé dans le même répertoire que l'actuelle base de données.
