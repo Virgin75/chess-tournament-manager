@@ -1,13 +1,13 @@
 from tinydb import TinyDB
 from tinydb import Query
-import random
+from datetime import datetime
 
 db_name = 'db.json'
 
 try:
     f = open(db_name)
     # le fichier db.json existe, alors on en créé un nouveau pour ne pas l'écraser
-    db_name = f'db-{random.randint(1,99999)}.json'
+    db_name = f'db-{datetime.now().timestamp()}.json'
     f.close()
 except IOError:
     # Le fichier db.json n'existe pas
