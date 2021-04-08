@@ -125,6 +125,16 @@ class Main_menu_controller:
         players, tournaments, valid_json_file = idmc.run()
 
         if valid_json_file is False:
+            # db file is not valid. Go back to main menu
+            return
+        elif len(tournaments) == 0:
+            # db file is empty
+            self.player_instances.clear()
+            self.players_created = 0
+            self.tournament_created = 0
+            self.tournament_instance = None
+            self.current_round = 0
+            self.round_instances = []
             return
 
         def get_player_inst_from_id(id):
