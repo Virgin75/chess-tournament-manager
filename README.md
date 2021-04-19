@@ -1,6 +1,6 @@
 # Description
 
-Chess tournament manager est un script Python permettant de créer un gérer un tournoi d'échecs. Ajoutez vos joueurs, les matches sont générés automatiquement. Vous n'avez plus qu'à rentrer les résultats et suivre le classement.
+Chess tournament manager est un script Python permettant de créer et un gérer un tournoi d'échecs. Ajoutez vos joueurs, les matches sont générés automatiquement. Vous n'avez plus qu'à rentrer les résultats et suivre le classement.
 
 # Installation
 
